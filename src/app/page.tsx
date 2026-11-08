@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import { AzulejoGrid } from "@/components/Azulejo";
 import { Countdown } from "@/components/Countdown";
+import { SiteHeader } from "@/components/SiteHeader";
 import { mapsEmbedUrl, mapsSearchUrl, wedding, type Venue } from "@/lib/wedding";
 
 // Altura da parede da página inicial: a tela menos o menu (4rem), arredondada
@@ -10,30 +11,10 @@ const heroHeight = {
   "--h": "max(calc(var(--tile) * (var(--rows) + 2)), round(down, calc(100svh - 4rem), var(--tile)))",
 } as CSSProperties;
 
-const navLinks = [
-  { href: "#historia", label: "Nossa história" },
-  { href: "#cerimonia", label: "Cerimônia e Recepção" },
-];
-
 export default function Home() {
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-10 bg-background/80 backdrop-blur">
-        <nav className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
-          <a href="#inicio" className="whitespace-nowrap font-script text-3xl text-accent">
-            {wedding.shortNames}
-          </a>
-          <ul className="flex gap-4 text-sm sm:gap-6">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <a href={link.href} className="hover:text-accent">
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </header>
+      <SiteHeader />
 
       <main className="flex-1 pt-16">
         {/*

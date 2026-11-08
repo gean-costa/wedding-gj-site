@@ -10,6 +10,7 @@
   --stone: #898788;
   --mist: #d9d9d9;
   --paper: #f6f7f9;
+  --river: #e3eaf1; /* azul bem claro derivado de secondary, fundo "rio" */
 
   --background: var(--paper);
   --foreground: var(--ink);
@@ -23,6 +24,7 @@
   --color-stone: var(--stone);
   --color-mist: var(--mist);
   --color-paper: var(--paper);
+  --color-river: var(--river);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);

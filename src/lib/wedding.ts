@@ -17,6 +17,7 @@ export const wedding = {
   // Belém fica em UTC-3 o ano todo (sem horário de verão).
   date: new Date("2027-11-13T19:30:00-03:00"),
   dateLabel: "13 de novembro de 2027",
+  dateShort: "13/11/2027",
   city: "Belém - PA",
   ceremony: {
     title: "Cerimônia",
