@@ -1,8 +1,8 @@
-// Componentes de azulejo usados no site. O desenho padrão é o Arabescos; os
-// outros desenhos guardados estão em AzulejoDesigns.tsx e podem ser passados
-// pela prop `Tile`.
+// Componentes de azulejo usados no site. O desenho padrão é o Arabescos com
+// rejunte; os outros desenhos guardados estão em AzulejoDesigns.tsx e podem ser
+// passados pela prop `Tile` (use withJoint() para a versão com rejunte).
 import type { ComponentType } from "react";
-import { TileArabesco } from "@/components/AzulejoDesigns";
+import { TileArabescoComRejunte as TileArabesco } from "@/components/AzulejoDesigns";
 
 type TileProps = { Tile?: ComponentType };
 

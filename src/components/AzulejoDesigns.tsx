@@ -173,7 +173,7 @@ function FleurDeLis({ color }: { color: string }) {
 // Rejunte entre azulejos + brilho do esmalte na borda de cada peça. Desenhado
 // por cima do azulejo: o traço na borda é cortado ao meio, então cada lado da
 // junta mostra metade e os dois vizinhos juntos formam a junta inteira.
-function TileJoint() {
+export function TileJoint() {
   return (
     <g fill="none">
       <rect width="100" height="100" stroke="#D9D9D9" strokeWidth="3.2" />
@@ -241,8 +241,6 @@ export function TileArabesco() {
           <FleurDeLis color={INK} />
         </g>
       ))}
-
-      <TileJoint />
     </>
   );
 }
@@ -256,7 +254,6 @@ export function TileFlor() {
   return (
     <g transform="scale(1.5625)">
       <rect width="64" height="64" fill={PAPER} />
-      <rect width="64" height="64" fill="none" stroke="#D9D9D9" />
       {quarters.map((a) => (
         <ellipse key={a} cx="32" cy="18" rx="6" ry="11" fill={LIGHT} transform={`rotate(${a} 32 32)`} />
       ))}
@@ -272,9 +269,26 @@ export function TileFlor() {
   );
 }
 
-export const azulejoDesigns: { id: string; name: string; source: string; Tile: ComponentType }[] = [
-  { id: "arabesco", name: "Arabescos (em uso)", source: "Matriz de azulejos, linha 3 coluna 4", Tile: TileArabesco },
-  { id: "instituto", name: "Instituto Histórico", source: "Fachada do Instituto Histórico e Geográfico do Pará", Tile: TileInstituto },
-  { id: "octogono", name: "Octógono", source: "Matriz de azulejos, linha 1 coluna 4", Tile: TileOctogono },
-  { id: "flor", name: "Flor simples", source: "Primeira versão usada no site", Tile: TileFlor },
+// Os desenhos acima não têm rejunte; esta função cria a versão com rejunte.
+export function withJoint(Tile: ComponentType): ComponentType {
+  function TileWithJoint() {
+    return (
+      <>
+        <Tile />
+        <TileJoint />
+      </>
+    );
+  }
+  return TileWithJoint;
+}
+
+export const TileArabescoComRejunte = withJoint(TileArabesco);
+
+type Design = { id: string; name: string; source: string; Tile: ComponentType; TileComRejunte: ComponentType };
+
+export const azulejoDesigns: Design[] = [
+  { id: "arabesco", name: "Arabescos (em uso, com rejunte)", source: "Matriz de azulejos, linha 3 coluna 4", Tile: TileArabesco, TileComRejunte: TileArabescoComRejunte },
+  { id: "instituto", name: "Instituto Histórico", source: "Fachada do Instituto Histórico e Geográfico do Pará", Tile: TileInstituto, TileComRejunte: withJoint(TileInstituto) },
+  { id: "octogono", name: "Octógono", source: "Matriz de azulejos, linha 1 coluna 4", Tile: TileOctogono, TileComRejunte: withJoint(TileOctogono) },
+  { id: "flor", name: "Flor simples", source: "Primeira versão usada no site", Tile: TileFlor, TileComRejunte: withJoint(TileFlor) },
 ];
