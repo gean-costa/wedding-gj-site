@@ -72,7 +72,7 @@ function PortoItem({ porto, index, final = false }: { porto: Porto; index: numbe
           {final ? "Próximo porto" : `Porto ${index + 1}`} · {porto.date}
         </p>
         <h2 className="mt-2">
-          <LetraDeBarco shallow className="text-2xl sm:text-3xl">
+          <LetraDeBarco shallow className="text-3xl sm:text-4xl">
             {porto.title}
           </LetraDeBarco>
         </h2>

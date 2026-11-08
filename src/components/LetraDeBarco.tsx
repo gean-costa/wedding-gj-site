@@ -20,9 +20,30 @@ const sparkles = `url("data:image/svg+xml,${encodeURIComponent(
     `</g></svg>`,
 )}")`;
 
-// Metade de cima clara, metade de baixo média, como as camadas "base superior"
-// e "base inferior" da fonte de referência.
-const split = "linear-gradient(180deg, #BFDDF3 0%, #BFDDF3 52%, #98AEC3 52%, #98AEC3 100%)";
+// Metade de cima clara, metade de baixo média, separadas por uma fenda, como as
+// camadas "base superior" e "base inferior" da fonte de referência.
+// Tudo é medido por linha (1lh, com line-height fixo de 1.25em), então cada
+// linha de um título que quebra tem as suas duas metades e a sua fenda.
+// SPLIT = centro da fenda a partir do topo da linha, medido para a Sancreek em
+// maiúsculas (meio da altura das letras).
+const SPLIT = "0.575em";
+const GAP = "max(2px, 0.04em)";
+const split = `linear-gradient(180deg, #BFDDF3 0, #BFDDF3 ${SPLIT}, #98AEC3 ${SPLIT}, #98AEC3 100%)`;
+
+// Máscara da fenda: corta todas as camadas (preenchimento, contorno e sombra)
+// na mesma faixa, deixando aparecer o fundo da página.
+const slitTop = `calc(${SPLIT} - ${GAP} / 2)`;
+const slitBottom = `calc(${SPLIT} + ${GAP} / 2)`;
+const slitMask = `linear-gradient(180deg, #000 0, #000 ${slitTop}, transparent ${slitTop}, transparent ${slitBottom}, #000 ${slitBottom}, #000 100%)`;
+const slit: CSSProperties = {
+  lineHeight: 1.25,
+  WebkitMaskImage: slitMask,
+  maskImage: slitMask,
+  WebkitMaskSize: "100% 1lh",
+  maskSize: "100% 1lh",
+  WebkitMaskRepeat: "repeat",
+  maskRepeat: "repeat",
+};
 
 // Sombra 3D: blocos subindo para a direita, com a última camada mais escura
 // fazendo a borda do volume. `depth` = quantidade de camadas (comprimento).
@@ -36,7 +57,7 @@ function extrusion(depth: number) {
 // Preenchimento em duas metades + estrelinhas, com contorno bem fino.
 const fill: CSSProperties = {
   backgroundImage: `${sparkles}, ${split}`,
-  backgroundSize: "0.55em 0.55em, 100% 100%",
+  backgroundSize: "0.55em 0.55em, 100% 1lh",
   WebkitBackgroundClip: "text",
   backgroundClip: "text",
   color: "transparent",
@@ -58,7 +79,9 @@ export function LetraDeBarco({
 }) {
   const layers: CSSProperties[] = [{ color: DARK, textShadow: extrusion(shallow ? 4 : 9) }, fill];
   return (
-    <span className={`${fontClassName} inline-grid uppercase leading-tight tracking-[0.03em] ${className}`}>
+    // px: a máscara recorta tudo fora da caixa; o respiro lateral evita cortar
+    // a sombra 3D, que sai um pouco para a direita.
+    <span className={`${fontClassName} inline-grid px-[0.12em] uppercase tracking-[0.03em] ${className}`} style={slit}>
       {layers.map((style, i) => (
         <span key={i} aria-hidden={i < layers.length - 1 || undefined} className="[grid-area:1/1]" style={style}>
           {children}
