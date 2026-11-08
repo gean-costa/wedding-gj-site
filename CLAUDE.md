@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Wedding website for Gean Costa & Juliana Silva (13 Nov 2027, Belém - PA). Must work well on both desktop and mobile. Built incrementally, one section at a time. The owner is a beginner in web development and communicates in Portuguese (pt-BR): reply in Portuguese and explain new commands/concepts step by step. All site copy is in pt-BR.
 
-Planned v1 sections: home (names, date, countdown), Nossa história, Cerimônia e festa (done), Confirmação de presença (RSVP, needs a backend/database), Lista de presentes. Hosting target: Vercel; code lives in a public GitHub repo, so never commit secrets (use `.env.local`, which is gitignored).
+Planned v1 sections: home (names, date, countdown), Nossa história, Cerimônia e Recepção (done), Confirmação de presença (RSVP, needs a backend/database), Lista de presentes. Hosting target: Vercel; code lives in a public GitHub repo, so never commit secrets (use `.env.local`, which is gitignored).
 
 ## Commands
 

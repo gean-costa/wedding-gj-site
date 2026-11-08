@@ -4,7 +4,7 @@ import { mapsEmbedUrl, mapsSearchUrl, wedding, type Venue } from "@/lib/wedding"
 
 const navLinks = [
   { href: "#historia", label: "Nossa história" },
-  { href: "#cerimonia", label: "Cerimônia e festa" },
+  { href: "#cerimonia", label: "Cerimônia e Recepção" },
 ];
 
 export default function Home() {
@@ -56,7 +56,7 @@ export default function Home() {
         <section id="cerimonia" className="scroll-mt-16 bg-white px-4 py-20">
           <div className="mx-auto max-w-5xl">
             <h2 className="mb-10 text-center font-serif text-3xl sm:text-4xl">
-              Cerimônia e festa
+              Cerimônia e Recepção
             </h2>
             <div className="grid gap-8 md:grid-cols-2">
               <VenueCard venue={wedding.ceremony} />

@@ -146,7 +146,7 @@ function Cerimonia({ icon = false, framed = false }: { icon?: boolean; framed?: 
   const venues = [wedding.ceremony, wedding.reception];
   return (
     <section className="bg-white px-4 py-16">
-      <SectionTitle icon={icon}>Cerimônia e festa</SectionTitle>
+      <SectionTitle icon={icon}>Cerimônia e Recepção</SectionTitle>
       <div className="mx-auto grid max-w-4xl gap-8 md:grid-cols-2">
         {venues.map((v, i) => {
           const content = (
