@@ -3,6 +3,7 @@
 import type { Metadata } from "next";
 import {
   BasilicaNazare,
+  Carimbo,
   CasaOnzeJanelas,
   EstacaoDasDocas,
   FortePresepio,
@@ -143,21 +144,6 @@ export default function IlustracoesPage() {
         </Layout>
       </div>
     </main>
-  );
-}
-
-// Carimbo do correio: círculo duplo com a cidade e a data, e linhas onduladas.
-function Carimbo({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 120 70" className={className} aria-hidden>
-      <g fill="none" stroke="#575C60" strokeWidth="1.4" opacity="0.75">
-        <circle cx="35" cy="35" r="30" />
-        <circle cx="35" cy="35" r="22" />
-        <path d="M66 20 q8 -5 16 0 t16 0 t16 0 M66 30 q8 -5 16 0 t16 0 t16 0 M66 40 q8 -5 16 0 t16 0 t16 0 M66 50 q8 -5 16 0 t16 0 t16 0" />
-      </g>
-      <text x="35" y="32" textAnchor="middle" fontSize="8" fontWeight="700" fill="#575C60" opacity="0.8">BELÉM</text>
-      <text x="35" y="43" textAnchor="middle" fontSize="7" fill="#575C60" opacity="0.8">13 NOV 2027</text>
-    </svg>
   );
 }
 

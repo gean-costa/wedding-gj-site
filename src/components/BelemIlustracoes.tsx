@@ -460,15 +460,18 @@ export function RelogioVerOPeso({ variant = "linha", className }: Props) {
 // Selo de carta, inspirado no selo dos Correios do Theatro da Paz (1978):
 // borda picotada, margem branca, ilustração, faixa com local e valor, legenda
 // e crédito na vertical. As bolinhas da borda deixam ver o fundo da página.
+// `small` é a versão reduzida (sem crédito vertical), para colar na carta.
 export function SeloPostal({
   title,
   children,
   rotate = 0,
+  small = false,
   className = "",
 }: {
   title: string;
   children: React.ReactNode;
   rotate?: number;
+  small?: boolean;
   className?: string;
 }) {
   return (
@@ -481,17 +484,36 @@ export function SeloPostal({
         transform: rotate ? `rotate(${rotate}deg)` : undefined,
       }}
     >
-      <div className="relative flex h-full flex-col bg-white px-3 pb-2 pt-3">
-        <span className="absolute left-0.5 top-3 text-[7px] uppercase tracking-widest text-stone [writing-mode:vertical-rl] rotate-180">
-          Juliana &amp; Gean · 2027
-        </span>
-        <div className="flex flex-1 items-end justify-center bg-river/60 px-2 pt-2">{children}</div>
-        <div className="mt-2 flex items-baseline justify-between bg-primary px-2 py-1 text-white">
-          <span className="text-sm font-bold tracking-wide">Belém 27</span>
-          <span className="text-sm font-bold">13,11</span>
+      <div className={`relative flex h-full flex-col bg-white ${small ? "px-1.5 pb-1 pt-1.5" : "px-3 pb-2 pt-3"}`}>
+        {!small && (
+          <span className="absolute left-0.5 top-3 rotate-180 text-[7px] uppercase tracking-widest text-stone [writing-mode:vertical-rl]">
+            Juliana &amp; Gean · 2027
+          </span>
+        )}
+        <div className={`flex flex-1 items-end justify-center bg-river/60 ${small ? "px-1 pt-1" : "px-2 pt-2"}`}>{children}</div>
+        <div className={`flex items-baseline justify-between bg-primary text-white ${small ? "mt-1 px-1 py-0.5" : "mt-2 px-2 py-1"}`}>
+          <span className={`font-bold tracking-wide ${small ? "text-[9px]" : "text-sm"}`}>Belém 27</span>
+          <span className={`font-bold ${small ? "text-[9px]" : "text-sm"}`}>13,11</span>
         </div>
-        <p className="mt-1 text-center text-[8px] uppercase tracking-[0.2em] text-ink">{title} · Belém — Pará</p>
+        <p className={`mt-1 text-center uppercase text-ink ${small ? "text-[5px] tracking-[0.15em]" : "text-[8px] tracking-[0.2em]"}`}>
+          {title} · Belém — Pará
+        </p>
       </div>
     </div>
+  );
+}
+
+// Carimbo do correio: círculo duplo com a cidade e a data, e linhas onduladas.
+export function Carimbo({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 120 70" className={className} aria-hidden>
+      <g fill="none" stroke={INK} strokeWidth="1.4" opacity="0.75">
+        <circle cx="35" cy="35" r="30" />
+        <circle cx="35" cy="35" r="22" />
+        <path d="M66 20 q8 -5 16 0 t16 0 t16 0 M66 30 q8 -5 16 0 t16 0 t16 0 M66 40 q8 -5 16 0 t16 0 t16 0 M66 50 q8 -5 16 0 t16 0 t16 0" />
+      </g>
+      <text x="35" y="32" textAnchor="middle" fontSize="8" fontWeight="700" fill={INK} opacity="0.8">BELÉM</text>
+      <text x="35" y="43" textAnchor="middle" fontSize="7" fill={INK} opacity="0.8">13 NOV 2027</text>
+    </svg>
   );
 }

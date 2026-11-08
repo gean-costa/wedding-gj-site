@@ -1,7 +1,7 @@
 "use client";
 
-// Formulário de confirmação de presença, em visual neutro (a página ainda vai
-// ganhar uma identidade própria).
+// Formulário de confirmação de presença. Não tem fundo nem borda próprios: fica
+// dentro da carta selada da página /confirmar-presenca.
 // ATENÇÃO: ainda não salva as respostas em lugar nenhum; ao enviar, só mostra a
 // mensagem de agradecimento na tela. O armazenamento (banco de dados) é a
 // próxima etapa.
@@ -30,7 +30,7 @@ export function RsvpForm() {
   if (answer) {
     const firstName = answer.name.split(" ")[0];
     return (
-      <div className="flex flex-col items-center gap-4 rounded-xl border border-mist bg-white px-6 py-10 text-center">
+      <div className="flex flex-col items-center gap-4 py-8 text-center">
         <p className="font-serif text-3xl text-primary">{answer.attending ? "Presença confirmada!" : "Resposta recebida"}</p>
         <p className="max-w-md font-serif text-lg">
           {answer.attending
@@ -45,7 +45,7 @@ export function RsvpForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-5 rounded-xl border border-mist bg-white px-5 py-6 sm:px-8">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-5">
       <div>
         <label htmlFor="nome" className={label}>Nome completo</label>
         <input id="nome" name="nome" required autoComplete="name" className={field} />
