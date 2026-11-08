@@ -1,4 +1,4 @@
-import { AzulejoBackground } from "@/components/Azulejo";
+import { AzulejoGrid } from "@/components/Azulejo";
 import { Countdown } from "@/components/Countdown";
 import { mapsEmbedUrl, mapsSearchUrl, wedding, type Venue } from "@/lib/wedding";
 
@@ -28,21 +28,31 @@ export default function Home() {
       </header>
 
       <main className="flex-1">
+        {/*
+          O cartão mede um número inteiro de azulejos (--cols x --rows de --tile)
+          e a grade nasce no canto dele, então as bordas caem nas juntas.
+          Tamanhos por faixa de tela:
+            < 360px:  azulejo 48px, cartão 6x6 (288x288)
+            ≥ 360px:  azulejo 56px, cartão 6x6 (336x336)
+            ≥ 640px:  azulejo 80px, cartão 7x4 (560x320)
+            ≥ 1024px: azulejo 96px, cartão 8x4 (768x384)
+        */}
         <section
           id="inicio"
-          className="relative flex min-h-svh items-center justify-center px-4 pb-10 pt-20"
+          className="relative flex min-h-svh items-center justify-center overflow-hidden pb-10 pt-20 [--cols:6] [--rows:6] [--tile:48px] min-[360px]:[--tile:56px] sm:[--cols:7] sm:[--rows:4] sm:[--tile:80px] lg:[--cols:8] lg:[--tile:96px]"
         >
-          <AzulejoBackground id="azulejo-inicio" />
-          <div className="relative flex w-full max-w-3xl flex-col items-center gap-6 rounded-sm border-4 border-double border-primary bg-paper px-4 py-12 text-center shadow-lg sm:px-14">
-            {/* Tamanho acompanha a largura da tela para os nomes caberem sempre numa linha. */}
-            <h1 className="whitespace-nowrap font-script text-[clamp(3rem,17vw,8rem)] leading-none text-primary">
-              {wedding.brideFirstName} <span className="text-[0.7em]">&</span>{" "}
-              {wedding.groomFirstName}
-            </h1>
-            <p className="font-serif text-lg sm:text-2xl">
-              {wedding.dateLabel} · {wedding.city}
-            </p>
-            <Countdown target={wedding.date.toISOString()} />
+          <div className="relative h-[calc(var(--tile)*var(--rows))] w-[calc(var(--tile)*var(--cols))] shrink-0">
+            <AzulejoGrid id="azulejo-inicio" />
+            <div className="relative flex h-full flex-col items-center justify-center gap-4 border-4 border-double border-primary bg-paper px-4 text-center shadow-lg sm:gap-6 sm:px-10">
+              <h1 className="whitespace-nowrap font-script text-[55px] leading-none text-primary min-[360px]:text-[64px] sm:text-[92px] lg:text-[128px]">
+                {wedding.brideFirstName} <span className="text-[0.7em]">&</span>{" "}
+                {wedding.groomFirstName}
+              </h1>
+              <p className="font-serif text-lg sm:text-2xl">
+                {wedding.dateLabel} · {wedding.city}
+              </p>
+              <Countdown target={wedding.date.toISOString()} />
+            </div>
           </div>
         </section>
 
