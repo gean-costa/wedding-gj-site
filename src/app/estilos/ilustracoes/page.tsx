@@ -7,7 +7,8 @@ import {
   EstacaoDasDocas,
   GarcaEmPe,
   GarcaVoando,
-  MangalDasGarcas,
+  CasaOnzeJanelas,
+  FortePresepio,
   RelogioVerOPeso,
   SeloPostal,
   TheatroDaPaz,
@@ -31,7 +32,8 @@ const landmarks = [
   { name: "Basílica de Nazaré", C: BasilicaNazare, w: "w-40" },
   { name: "Estação das Docas", C: EstacaoDasDocas, w: "w-60" },
   { name: "Relógio (Praça do Relógio)", C: RelogioVerOPeso, w: "w-16" },
-  { name: "Mangal das Garças", C: MangalDasGarcas, w: "w-60" },
+  { name: "Forte do Presépio", C: FortePresepio, w: "w-60" },
+  { name: "Casa das Onze Janelas", C: CasaOnzeJanelas, w: "w-64" },
 ];
 
 const extras = [
@@ -49,7 +51,8 @@ const selos = [
   { title: "Basílica de Nazaré", C: BasilicaNazare, w: "w-32", rotate: -1 },
   { title: "Estação das Docas", C: EstacaoDasDocas, w: "w-52", rotate: 2 },
   { title: "Praça do Relógio", C: RelogioVerOPeso, w: "w-16", rotate: -1.5 },
-  { title: "Mangal das Garças", C: MangalDasGarcas, w: "w-52", rotate: 1 },
+  { title: "Forte do Presépio", C: FortePresepio, w: "w-52", rotate: 1 },
+  { title: "Casa das Onze Janelas", C: CasaOnzeJanelas, w: "w-56", rotate: -2 },
 ];
 
 export default function IlustracoesPage() {

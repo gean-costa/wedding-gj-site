@@ -318,28 +318,84 @@ export function BasilicaNazare({ variant = "linha", className }: Props) {
   );
 }
 
-// Mangal das Garças: a cúpula de vidro à beira do lago, com palmeiras e o deque.
-export function MangalDasGarcas({ variant = "linha", className }: Props) {
+// Forte do Presépio (Forte do Castelo): muralhas baixas e maciças de pedra,
+// levemente inclinadas, com o baluarte em quina mais alto, parapeito no alto,
+// portão em arco com moldura clara à esquerda, guarita ao fundo e o fosso em
+// rampa embaixo.
+export function FortePresepio({ variant = "linha", className }: Props) {
   return (
-    <svg viewBox="0 0 220 132" className={className} aria-hidden>
-      <Wash variant={variant} d="M8 96 C4 44 60 14 110 18 C170 14 216 52 210 100 C204 130 16 132 8 96 Z" />
+    <svg viewBox="0 0 240 124" className={className} aria-hidden>
+      <Wash variant={variant} d="M8 96 C4 48 70 20 130 26 C200 20 236 60 230 102 C224 124 14 126 8 96 Z" />
 
-      <path d="M8 106 Q110 92 212 106 Q212 128 110 130 Q8 128 8 106 Z" {...body(variant, "light")} />
-      <Water variant={variant} y={116} width={220} />
+      {/* Muralha da esquerda, baluarte e muralha que recua à direita */}
+      {/* Pedra escura nas muralhas; parapeito mais claro no alto */}
+      <path d="M150 94 V56 L226 66 L228 94 Z" {...body(variant, "dark")} />
+      <path d="M150 56 L226 66 V62 L150 52 Z" {...body(variant, "light")} />
+      <path d="M18 94 L24 50 H130 L132 94 Z" {...body(variant, "dark")} />
+      <rect x="23" y="45" width="108" height="5" {...body(variant, "light")} />
+      <path d="M128 94 L131 42 H151 L154 94 Z" {...body(variant, "dark")} />
+      <rect x="130" y="38" width="22" height="5" {...body(variant, "light")} />
 
-      <path d="M44 96 C44 56 72 36 106 36 C142 36 168 56 168 96 Z" {...body(variant)} />
-      {[58, 74, 90, 106, 122, 138, 154].map((x) => (
-        <path key={x} d={`M${x} 96 Q${x + (106 - x) * 0.25} 52 106 36`} {...line(variant, "light", 0.8)} />
+      {/* Fiadas de pedra */}
+      <path d="M22 62 H130 M21 74 H131 M20 86 H132 M131 58 H152 M131 72 H153 M132 86 H153 M150 70 L227 78 M150 82 L227 88" {...line(variant, "main", 0.6)} />
+
+      {/* Portão em arco com moldura */}
+      <rect x="34" y="54" width="20" height="40" {...body(variant, "light")} />
+      <rect x="32" y="51" width="24" height="4" {...body(variant, "light")} />
+      <path d={arch(44, 94, 10, 30)} {...detail(variant)} />
+
+      {/* Guarita na ponta da muralha */}
+      <rect x="220" y="56" width="7" height="9" {...body(variant, "light")} />
+      <path d="M219 56 Q223.5 50 228 56 Z" {...body(variant, "dark")} />
+
+      {/* Fosso em rampa e gramado */}
+      <path d="M0 116 L18 94 H228 L240 116 Z" {...body(variant, "light")} />
+      <path d="M0 116 H240" {...line(variant, "dark", 1.4)} />
+    </svg>
+  );
+}
+
+// Casa das Onze Janelas: sobrado neoclássico de dois andares com onze janelas
+// em cada; em cima, janelas altas com sacadas de ferro e cornijas; embaixo,
+// janelas com moldura e grade e uma porta; pilastras nas pontas, faixa entre os
+// andares e telhado de telhas com beiral.
+export function CasaOnzeJanelas({ variant = "linha", className }: Props) {
+  const xs = Array.from({ length: 11 }, (_, i) => 30 + i * 20);
+  return (
+    <svg viewBox="0 0 260 122" className={className} aria-hidden>
+      <Wash variant={variant} d="M6 96 C2 44 70 14 130 18 C200 14 258 52 252 100 C246 124 12 124 6 96 Z" />
+
+      {/* Telhado e cornija */}
+      <path d="M4 32 L18 20 H242 L256 32 Z" {...body(variant, "dark")} />
+      <rect x="6" y="32" width="248" height="5" {...body(variant, "light")} />
+
+      {/* Paredes, pilastras e faixa entre os andares */}
+      <rect x="10" y="37" width="240" height="73" {...body(variant)} />
+      <rect x="10" y="37" width="9" height="73" {...body(variant, "light")} />
+      <rect x="241" y="37" width="9" height="73" {...body(variant, "light")} />
+      <rect x="10" y="72" width="240" height="4" {...body(variant, "light")} />
+
+      {xs.map((x, i) => (
+        <g key={x}>
+          {/* Andar de cima: cornija, janela alta e sacada */}
+          <rect x={x - 7} y="41" width="14" height="3" {...body(variant, "dark")} />
+          <rect x={x - 5} y="45" width="10" height="20" {...detail(variant)} />
+          <path d={`M${x - 7} 64 H${x + 7} M${x - 7} 69 H${x + 7} M${x - 5} 64 V69 M${x} 64 V69 M${x + 5} 64 V69`} {...line(variant, "dark", 0.8)} />
+          {/* Térreo: moldura e janela com grade, ou a porta */}
+          <rect x={x - 7} y="80" width="14" height="24" {...body(variant, "light")} />
+          {i === 9 ? (
+            <rect x={x - 5} y="82" width="10" height="22" {...detail(variant)} />
+          ) : (
+            <>
+              <rect x={x - 5} y="83" width="10" height="16" {...detail(variant)} />
+              <path d={`M${x - 2} 83 V99 M${x + 2} 83 V99`} {...line(variant, "light", 0.5)} />
+            </>
+          )}
+        </g>
       ))}
-      <path d="M50 80 Q106 66 162 80 M58 64 Q106 50 154 64 M74 48 Q106 40 138 48" {...line(variant, "light", 0.8)} />
-      <rect x="40" y="96" width="132" height="5" {...body(variant, "dark")} />
 
-      <Palmeira variant={variant} x={28} base={104} h={50} lean={-4} />
-      <Palmeira variant={variant} x={188} base={104} h={56} lean={6} />
-      <Palmeira variant={variant} x={176} base={104} h={38} lean={-3} />
-
-      <path d="M124 106 H134 L160 132 H146 Z" {...body(variant, "dark")} />
-      <path d="M131 111 H138 M136 117 H144 M141 123 H150" {...line(variant, "light", 0.8)} />
+      <rect x="6" y="110" width="248" height="5" {...body(variant, "dark")} />
+      <path d="M0 115 H260" {...line(variant, "dark", 1.4)} />
     </svg>
   );
 }
