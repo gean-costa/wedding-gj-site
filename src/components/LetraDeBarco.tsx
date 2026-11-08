@@ -64,12 +64,22 @@ const split = svgUrl(
 const slitMask = svgUrl(`<path d='${above(-HALF_GAP)}'/><path d='${below(HALF_GAP)}'/>`);
 
 const TILE_SIZE = "0.3em 1lh";
+
+// Respiro lateral do letreiro: a máscara recorta tudo fora da caixa, e a sombra
+// 3D sai um pouco para a direita. A máscara começa na borda externa (com o
+// respiro) e as cores começam onde o texto começa; por isso a máscara é
+// deslocada em PAD, para a fenda cair exatamente no encaixe das duas metades.
+const PAD = "0.12em";
+
 const slit: CSSProperties = {
   lineHeight: 1.25,
+  paddingInline: PAD,
   WebkitMaskImage: slitMask,
   maskImage: slitMask,
   WebkitMaskSize: TILE_SIZE,
   maskSize: TILE_SIZE,
+  WebkitMaskPosition: `${PAD} 0`,
+  maskPosition: `${PAD} 0`,
   WebkitMaskRepeat: "repeat",
   maskRepeat: "repeat",
 };
@@ -108,9 +118,7 @@ export function LetraDeBarco({
 }) {
   const layers: CSSProperties[] = [{ color: DARK, textShadow: extrusion(shallow ? 4 : 9) }, fill];
   return (
-    // px: a máscara recorta tudo fora da caixa; o respiro lateral evita cortar
-    // a sombra 3D, que sai um pouco para a direita.
-    <span className={`${fontClassName} inline-grid px-[0.12em] uppercase tracking-[0.03em] ${className}`} style={slit}>
+    <span className={`${fontClassName} inline-grid uppercase tracking-[0.03em] ${className}`} style={slit}>
       {layers.map((style, i) => (
         <span key={i} aria-hidden={i < layers.length - 1 || undefined} className="[grid-area:1/1]" style={style}>
           {children}
