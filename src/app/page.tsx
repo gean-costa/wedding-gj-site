@@ -1,6 +1,14 @@
+import type { CSSProperties } from "react";
 import { AzulejoGrid } from "@/components/Azulejo";
 import { Countdown } from "@/components/Countdown";
 import { mapsEmbedUrl, mapsSearchUrl, wedding, type Venue } from "@/lib/wedding";
+
+// Altura da parede da página inicial: a tela menos o menu (4rem), arredondada
+// para baixo até um número inteiro de azulejos, com no mínimo uma fileira
+// acima e uma abaixo do cartão.
+const heroHeight = {
+  "--h": "max(calc(var(--tile) * (var(--rows) + 2)), round(down, calc(100svh - 4rem), var(--tile)))",
+} as CSSProperties;
 
 const navLinks = [
   { href: "#historia", label: "Nossa história" },
@@ -11,7 +19,7 @@ export default function Home() {
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-10 bg-background/80 backdrop-blur">
-        <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
+        <nav className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
           <a href="#inicio" className="whitespace-nowrap font-script text-3xl text-accent">
             {wedding.shortNames}
           </a>
@@ -27,10 +35,16 @@ export default function Home() {
         </nav>
       </header>
 
-      <main className="flex-1">
+      <main className="flex-1 pt-16">
         {/*
-          O cartão mede um número inteiro de azulejos (--cols x --rows de --tile)
-          e a grade nasce no canto dele, então as bordas caem nas juntas.
+          Parede de azulejos encaixada na grade:
+          - a altura da parede (--h) é um número inteiro de azulejos, então ela
+            começa e termina numa junta;
+          - o cartão mede --cols x --rows azulejos e fica a um número inteiro de
+            fileiras do topo; na horizontal a grade é ancorada na borda esquerda
+            do cartão, então as quatro bordas dele caem nas juntas;
+          - a borda de cima e de baixo da seção completa a meia junta que o
+            azulejo desenha na própria borda.
           Tamanhos por faixa de tela:
             < 360px:  azulejo 48px, cartão 6x6 (288x288)
             ≥ 360px:  azulejo 56px, cartão 6x6 (336x336)
@@ -39,11 +53,17 @@ export default function Home() {
         */}
         <section
           id="inicio"
-          className="relative flex min-h-svh items-center justify-center overflow-hidden pb-10 pt-20 [--cols:6] [--rows:6] [--tile:48px] min-[360px]:[--tile:56px] sm:[--cols:7] sm:[--rows:4] sm:[--tile:80px] lg:[--cols:8] lg:[--tile:96px]"
+          className="border-y-[length:max(1px,calc(var(--tile)*0.016))] border-mist [--cols:6] [--rows:6] [--tile:48px] min-[360px]:[--tile:56px] sm:[--cols:7] sm:[--rows:4] sm:[--tile:80px] lg:[--cols:8] lg:[--tile:96px]"
+          style={heroHeight}
         >
-          <div className="relative h-[calc(var(--tile)*var(--rows))] w-[calc(var(--tile)*var(--cols))] shrink-0">
-            <AzulejoGrid id="azulejo-inicio" />
-            <div className="relative flex h-full flex-col items-center justify-center gap-4 border-4 border-double border-primary bg-paper px-4 text-center shadow-lg sm:gap-6 sm:px-10">
+          <div className="relative h-[var(--h)] overflow-hidden">
+            <div className="absolute top-0" style={{ left: "calc(50% - var(--tile) * var(--cols) / 2)" }}>
+              <AzulejoGrid id="azulejo-inicio" />
+            </div>
+            <div
+              className="relative mx-auto flex h-[calc(var(--tile)*var(--rows))] w-[calc(var(--tile)*var(--cols))] flex-col items-center justify-center gap-4 border-4 border-double border-primary bg-paper px-4 text-center shadow-lg sm:gap-6 sm:px-10"
+              style={{ marginTop: "round(down, calc((var(--h) - var(--tile) * var(--rows)) / 2), var(--tile))" }}
+            >
               <h1 className="whitespace-nowrap font-script text-[55px] leading-none text-primary min-[360px]:text-[64px] sm:text-[92px] lg:text-[128px]">
                 {wedding.brideFirstName} <span className="text-[0.7em]">&</span>{" "}
                 {wedding.groomFirstName}
