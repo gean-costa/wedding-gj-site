@@ -1,7 +1,7 @@
 // Catálogo de desenhos de azulejo (área 100x100). Cada um é desenhado para que
 // as bordas continuem no azulejo vizinho ao serem repetidos lado a lado.
-// O site usa TileArabesco (ver Azulejo.tsx); os demais ficam guardados para
-// uso futuro e podem ser vistos em /estilos/azulejo-novo.
+// O site usa TileFlor com rejunte (ver Azulejo.tsx); os demais ficam guardados
+// para uso futuro e podem ser vistos em /estilos/azulejo-novo.
 import type { ComponentType } from "react";
 
 const INK = "#575C60";
@@ -283,12 +283,13 @@ export function withJoint(Tile: ComponentType): ComponentType {
 }
 
 export const TileArabescoComRejunte = withJoint(TileArabesco);
+export const TileFlorComRejunte = withJoint(TileFlor);
 
 type Design = { id: string; name: string; source: string; Tile: ComponentType; TileComRejunte: ComponentType };
 
 export const azulejoDesigns: Design[] = [
-  { id: "arabesco", name: "Arabescos (em uso, com rejunte)", source: "Matriz de azulejos, linha 3 coluna 4", Tile: TileArabesco, TileComRejunte: TileArabescoComRejunte },
+  { id: "flor", name: "Flor simples (em uso, com rejunte)", source: "Primeira versão usada no site", Tile: TileFlor, TileComRejunte: TileFlorComRejunte },
+  { id: "arabesco", name: "Arabescos", source: "Matriz de azulejos, linha 3 coluna 4", Tile: TileArabesco, TileComRejunte: TileArabescoComRejunte },
   { id: "instituto", name: "Instituto Histórico", source: "Fachada do Instituto Histórico e Geográfico do Pará", Tile: TileInstituto, TileComRejunte: withJoint(TileInstituto) },
   { id: "octogono", name: "Octógono", source: "Matriz de azulejos, linha 1 coluna 4", Tile: TileOctogono, TileComRejunte: withJoint(TileOctogono) },
-  { id: "flor", name: "Flor simples", source: "Primeira versão usada no site", Tile: TileFlor, TileComRejunte: withJoint(TileFlor) },
 ];

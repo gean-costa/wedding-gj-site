@@ -1,8 +1,8 @@
-// Componentes de azulejo usados no site. O desenho padrão é o Arabescos com
+﻿// Componentes de azulejo usados no site. O desenho padrão é a Flor simples com
 // rejunte; os outros desenhos guardados estão em AzulejoDesigns.tsx e podem ser
 // passados pela prop `Tile` (use withJoint() para a versão com rejunte).
 import type { ComponentType } from "react";
-import { TileArabescoComRejunte as TileArabesco } from "@/components/AzulejoDesigns";
+import { TileFlorComRejunte as DefaultTile } from "@/components/AzulejoDesigns";
 
 type TileProps = { Tile?: ComponentType };
 
@@ -12,7 +12,7 @@ export function AzulejoBackground({
   id,
   size = 96,
   className = "",
-  Tile = TileArabesco,
+  Tile = DefaultTile,
 }: { id: string; size?: number; className?: string } & TileProps) {
   return (
     <svg className={`absolute inset-0 h-full w-full ${className}`} aria-hidden>
@@ -38,7 +38,7 @@ export function AzulejoBand({ id, size = 48, Tile }: { id: string; size?: number
 }
 
 // Um azulejo isolado, para usar como ícone/ornamento.
-export function AzulejoIcon({ className = "h-10 w-10", Tile = TileArabesco }: { className?: string } & TileProps) {
+export function AzulejoIcon({ className = "h-10 w-10", Tile = DefaultTile }: { className?: string } & TileProps) {
   return (
     <svg viewBox="0 0 100 100" className={className} aria-hidden>
       <Tile />
