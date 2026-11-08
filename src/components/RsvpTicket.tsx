@@ -133,7 +133,7 @@ function Stamp({ answer, onEdit }: { answer: Answer; onEdit: () => void }) {
   return (
     <div className="flex flex-col items-center gap-6 px-5 py-10 text-center sm:px-8">
       <div className="-rotate-6 rounded-xl border-4 border-double border-primary px-6 py-4">
-        <LetraDeBarco className="text-3xl sm:text-4xl">{answer.attending ? "Embarque Confirmado" : "Resposta Recebida"}</LetraDeBarco>
+        <LetraDeBarco shallow className="text-3xl sm:text-4xl">{answer.attending ? "Embarque Confirmado" : "Resposta Recebida"}</LetraDeBarco>
       </div>
       <p className="max-w-md font-serif text-lg">
         {answer.attending

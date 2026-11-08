@@ -29,8 +29,8 @@ export default function ConfirmarPresencaPage() {
             <p className="text-xs uppercase tracking-[0.4em] text-stone sm:text-sm">Confirmação de presença</p>
             <h1 className="flex flex-col items-center">
               {/* Tamanhos acompanham a largura da tela para caber em celulares pequenos. */}
-              <LetraDeBarco className="text-[clamp(1.75rem,9vw,4rem)]">Confirme sua</LetraDeBarco>
-              <LetraDeBarco className="text-[clamp(2.75rem,15vw,8rem)]">Presença</LetraDeBarco>
+              <LetraDeBarco className="text-[clamp(1.75rem,13vw,4rem)]">Confirme sua</LetraDeBarco>
+              <LetraDeBarco className="text-[clamp(2.75rem,18vw,8rem)]">Presença</LetraDeBarco>
             </h1>
             <Floreio className="mt-2 w-56 text-ink sm:w-72" />
             <p className="mt-2 max-w-xl font-serif text-lg sm:text-xl">

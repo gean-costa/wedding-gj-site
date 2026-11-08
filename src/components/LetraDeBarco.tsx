@@ -1,37 +1,64 @@
 // Letreiro no estilo dos abridores de letras, a pintura de letras dos barcos
-// ribeirinhos da Amazônia: letra grossa com serifa, degradê com faixa de
-// brilho, filete claro, contorno escuro e sombra projetada que dá volume.
+// ribeirinhos da Amazônia, inspirado na família de fontes "Muita Onda":
+// letra toscana (Sancreek, com serifas bifurcadas), preenchimento em duas metades,
+// estrelinhas de brilho e sombra 3D subindo para a direita.
 // Feito com cópias do texto empilhadas (CSS grid na mesma célula); só a última
 // camada é lida por leitores de tela.
-import { Ultra } from "next/font/google";
+import { Sancreek } from "next/font/google";
 import type { CSSProperties } from "react";
 
-const ultra = Ultra({ subsets: ["latin"], weight: "400" });
+const sancreek = Sancreek({ subsets: ["latin"], weight: "400" });
 
 const INK = "#575C60";
-const PAPER = "#F6F7F9";
+const DARK = "#667588";
 
-// Degradê de cima para baixo com uma faixa de brilho no meio, como nas letras pintadas.
-const FILL = `linear-gradient(180deg, #BFDDF3 0%, #BFDDF3 44%, ${PAPER} 46%, ${PAPER} 48%, #98AEC3 50%, #667588 100%)`;
+// Estrelinhas de brilho de 4 pontas, repetidas dentro da letra.
+const sparkles = `url("data:image/svg+xml,${encodeURIComponent(
+  `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'><g fill='#F6F7F9'>` +
+    `<path d='M11 4 L12.4 9.6 L18 11 L12.4 12.4 L11 18 L9.6 12.4 L4 11 L9.6 9.6 Z'/>` +
+    `<path d='M30 24 L30.9 27.1 L34 28 L30.9 28.9 L30 32 L29.1 28.9 L26 28 L29.1 27.1 Z'/>` +
+    `</g></svg>`,
+)}")`;
 
-const extrusion = Array.from({ length: 8 }, (_, i) => `${((i + 1) * 0.01).toFixed(3)}em ${((i + 1) * 0.01).toFixed(3)}em 0 ${INK}`).join(", ");
+// Metade de cima clara, metade de baixo média, como as camadas "base superior"
+// e "base inferior" da fonte de referência.
+const split = "linear-gradient(180deg, #BFDDF3 0%, #BFDDF3 52%, #98AEC3 52%, #98AEC3 100%)";
 
-// Os contornos são centrados na borda da letra; mantidos finos (e as letras
-// um pouco espaçadas, ver tracking abaixo) para não fecharem o miolo de "o", "e", "a".
-const layers: CSSProperties[] = [
-  // Sombra projetada (volume)
-  { color: INK, WebkitTextStroke: `0.12em ${INK}`, textShadow: extrusion },
-  // Filete claro em volta da letra
-  { color: PAPER, WebkitTextStroke: `0.085em ${PAPER}` },
-  // Contorno fino escuro
-  { color: INK, WebkitTextStroke: `0.035em ${INK}` },
-  // Preenchimento em degradê
-  { backgroundImage: FILL, WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" },
-];
+// Sombra 3D: blocos subindo para a direita, com a última camada mais escura
+// fazendo a borda do volume. `depth` = quantidade de camadas (comprimento).
+function extrusion(depth: number) {
+  return Array.from({ length: depth }, (_, i) => {
+    const d = ((i + 1) * 0.011).toFixed(3);
+    return `${d}em -${d}em 0 ${i === depth - 1 ? INK : DARK}`;
+  }).join(", ");
+}
 
-export function LetraDeBarco({ children, className = "" }: { children: string; className?: string }) {
+// Preenchimento em duas metades + estrelinhas, com contorno bem fino.
+const fill: CSSProperties = {
+  backgroundImage: `${sparkles}, ${split}`,
+  backgroundSize: "0.55em 0.55em, 100% 100%",
+  WebkitBackgroundClip: "text",
+  backgroundClip: "text",
+  color: "transparent",
+  WebkitTextStroke: `0.018em ${INK}`,
+};
+
+// `shallow` encurta a sombra 3D, para textos pequenos continuarem legíveis.
+// `fontClassName` permite testar outras fontes (ver /estilos/letreiro).
+export function LetraDeBarco({
+  children,
+  className = "",
+  shallow = false,
+  fontClassName = sancreek.className,
+}: {
+  children: string;
+  className?: string;
+  shallow?: boolean;
+  fontClassName?: string;
+}) {
+  const layers: CSSProperties[] = [{ color: DARK, textShadow: extrusion(shallow ? 4 : 9) }, fill];
   return (
-    <span className={`${ultra.className} inline-grid leading-tight tracking-[0.04em] ${className}`}>
+    <span className={`${fontClassName} inline-grid uppercase leading-tight tracking-[0.03em] ${className}`}>
       {layers.map((style, i) => (
         <span key={i} aria-hidden={i < layers.length - 1 || undefined} className="[grid-area:1/1]" style={style}>
           {children}
