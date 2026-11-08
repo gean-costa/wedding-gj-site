@@ -5,7 +5,7 @@ import { useState } from "react";
 import { wedding } from "@/lib/wedding";
 
 const links = [
-  { href: "/#historia", label: "Nossa história" },
+  { href: "/nossa-historia", label: "Nossa história" },
   { href: "/#cerimonia", label: "Cerimônia e Recepção" },
   { href: "/confirmar-presenca", label: "Confirmar presença" },
 ];

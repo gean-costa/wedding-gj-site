@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import Link from "next/link";
 import { AzulejoGrid } from "@/components/Azulejo";
 import { Countdown } from "@/components/Countdown";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -60,8 +61,14 @@ export default function Home() {
         <section id="historia" className="mx-auto max-w-3xl scroll-mt-16 px-4 py-20 text-center">
           <h2 className="mb-6 font-serif text-3xl sm:text-4xl">Nossa história</h2>
           <p className="leading-relaxed">
-            Em breve vamos contar aqui como tudo começou.
+            Nossa vida juntos é uma viagem a dois. Conheça os portos por onde passamos até aqui.
           </p>
+          <Link
+            href="/nossa-historia"
+            className="mt-6 inline-block rounded-full bg-accent px-6 py-2.5 text-sm text-white hover:opacity-90"
+          >
+            Conheça nossa história
+          </Link>
         </section>
 
         <section id="cerimonia" className="scroll-mt-16 bg-white px-4 py-20">
