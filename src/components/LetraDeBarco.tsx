@@ -30,7 +30,8 @@ const TILE_W = 30; // largura de um "dente" do zigue-zague (0.3em)
 const LINE_H = 125; // altura da linha (1.25em)
 const MID = 57.5; // centro da fenda a partir do topo da linha: meio da altura das letras na Sancreek em maiúsculas
 const AMP = 3.5; // amplitude do zigue-zague (para cima e para baixo do centro)
-const HALF_GAP = 2.75; // meia espessura da fenda
+const HALF_GAP = 1.1; // meia espessura da fenda
+const EDGE = 2.4; // espessura do contorno da metade de baixo, logo abaixo da fenda
 
 // Região acima da linha em zigue-zague deslocada `dy` do centro (a linha fica
 // alta nas bordas do ladrilho e baixa no meio).
@@ -45,8 +46,17 @@ const svgUrl = (body: string) =>
     `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${TILE_W} ${LINE_H}' preserveAspectRatio='none'>${body}</svg>`,
   )}")`;
 
-// Cores: metade de cima clara até o zigue-zague, metade de baixo média.
-const split = svgUrl(`<path d='${above(0)}' fill='#BFDDF3'/><path d='${below(0)}' fill='#98AEC3'/>`);
+// Linha em zigue-zague deslocada `dy` do centro. Começa e termina meio dente
+// fora do ladrilho para emendar sem falhas com o ladrilho vizinho.
+const zigLine = (dy: number) =>
+  `M${-TILE_W / 2} ${MID + AMP + dy} L0 ${MID - AMP + dy} L${TILE_W / 2} ${MID + AMP + dy} L${TILE_W} ${MID - AMP + dy} L${(TILE_W * 3) / 2} ${MID + AMP + dy}`;
+
+// Cores: metade de cima clara até o zigue-zague, metade de baixo média, com o
+// contorno escuro da metade de baixo encostado na borda inferior da fenda.
+const split = svgUrl(
+  `<path d='${above(0)}' fill='#BFDDF3'/><path d='${below(0)}' fill='#98AEC3'/>` +
+    `<path d='${zigLine(HALF_GAP + EDGE / 2)}' fill='none' stroke='${INK}' stroke-width='${EDGE}' stroke-linejoin='miter'/>`,
+);
 
 // Máscara da fenda: opaco acima e abaixo da faixa em zigue-zague, transparente
 // nela. Corta todas as camadas (preenchimento, contorno e sombra) ao mesmo
