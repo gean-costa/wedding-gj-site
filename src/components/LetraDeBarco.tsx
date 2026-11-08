@@ -20,27 +20,46 @@ const sparkles = `url("data:image/svg+xml,${encodeURIComponent(
     `</g></svg>`,
 )}")`;
 
-// Metade de cima clara, metade de baixo média, separadas por uma fenda, como as
-// camadas "base superior" e "base inferior" da fonte de referência.
-// Tudo é medido por linha (1lh, com line-height fixo de 1.25em), então cada
-// linha de um título que quebra tem as suas duas metades e a sua fenda.
-// SPLIT = centro da fenda a partir do topo da linha, medido para a Sancreek em
-// maiúsculas (meio da altura das letras).
-const SPLIT = "0.575em";
-const GAP = "max(2px, 0.04em)";
-const split = `linear-gradient(180deg, #BFDDF3 0, #BFDDF3 ${SPLIT}, #98AEC3 ${SPLIT}, #98AEC3 100%)`;
+// Metade de cima clara, metade de baixo média, separadas por uma fenda em
+// zigue-zague, como as camadas "base superior" e "base inferior" da fonte de
+// referência.
+// Os dois desenhos abaixo (cores e máscara da fenda) são ladrilhos SVG de
+// 0.3em x 1lh (line-height fixo de 1.25em) repetidos: cada linha de um título
+// que quebra tem as suas duas metades e a sua fenda. Unidades do SVG: 100 = 1em.
+const TILE_W = 30; // largura de um "dente" do zigue-zague (0.3em)
+const LINE_H = 125; // altura da linha (1.25em)
+const MID = 57.5; // centro da fenda a partir do topo da linha: meio da altura das letras na Sancreek em maiúsculas
+const AMP = 3.5; // amplitude do zigue-zague (para cima e para baixo do centro)
+const HALF_GAP = 2.75; // meia espessura da fenda
 
-// Máscara da fenda: corta todas as camadas (preenchimento, contorno e sombra)
-// na mesma faixa, deixando aparecer o fundo da página.
-const slitTop = `calc(${SPLIT} - ${GAP} / 2)`;
-const slitBottom = `calc(${SPLIT} + ${GAP} / 2)`;
-const slitMask = `linear-gradient(180deg, #000 0, #000 ${slitTop}, transparent ${slitTop}, transparent ${slitBottom}, #000 ${slitBottom}, #000 100%)`;
+// Região acima da linha em zigue-zague deslocada `dy` do centro (a linha fica
+// alta nas bordas do ladrilho e baixa no meio).
+const above = (dy: number) =>
+  `M0 0 H${TILE_W} V${MID - AMP + dy} L${TILE_W / 2} ${MID + AMP + dy} L0 ${MID - AMP + dy} Z`;
+// Região abaixo da mesma linha.
+const below = (dy: number) =>
+  `M0 ${MID - AMP + dy} L${TILE_W / 2} ${MID + AMP + dy} L${TILE_W} ${MID - AMP + dy} V${LINE_H} H0 Z`;
+
+const svgUrl = (body: string) =>
+  `url("data:image/svg+xml,${encodeURIComponent(
+    `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${TILE_W} ${LINE_H}' preserveAspectRatio='none'>${body}</svg>`,
+  )}")`;
+
+// Cores: metade de cima clara até o zigue-zague, metade de baixo média.
+const split = svgUrl(`<path d='${above(0)}' fill='#BFDDF3'/><path d='${below(0)}' fill='#98AEC3'/>`);
+
+// Máscara da fenda: opaco acima e abaixo da faixa em zigue-zague, transparente
+// nela. Corta todas as camadas (preenchimento, contorno e sombra) ao mesmo
+// tempo, deixando aparecer o fundo da página.
+const slitMask = svgUrl(`<path d='${above(-HALF_GAP)}'/><path d='${below(HALF_GAP)}'/>`);
+
+const TILE_SIZE = "0.3em 1lh";
 const slit: CSSProperties = {
   lineHeight: 1.25,
   WebkitMaskImage: slitMask,
   maskImage: slitMask,
-  WebkitMaskSize: "100% 1lh",
-  maskSize: "100% 1lh",
+  WebkitMaskSize: TILE_SIZE,
+  maskSize: TILE_SIZE,
   WebkitMaskRepeat: "repeat",
   maskRepeat: "repeat",
 };
@@ -57,7 +76,7 @@ function extrusion(depth: number) {
 // Preenchimento em duas metades + estrelinhas, com contorno bem fino.
 const fill: CSSProperties = {
   backgroundImage: `${sparkles}, ${split}`,
-  backgroundSize: "0.55em 0.55em, 100% 1lh",
+  backgroundSize: `0.55em 0.55em, ${TILE_SIZE}`,
   WebkitBackgroundClip: "text",
   backgroundClip: "text",
   color: "transparent",
