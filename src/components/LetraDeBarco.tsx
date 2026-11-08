@@ -30,7 +30,7 @@ const TILE_W = 30; // largura de um "dente" do zigue-zague (0.3em)
 const LINE_H = 125; // altura da linha (1.25em)
 const MID = 57.5; // centro da fenda a partir do topo da linha: meio da altura das letras na Sancreek em maiúsculas
 const AMP = 3.5; // amplitude do zigue-zague (para cima e para baixo do centro)
-const HALF_GAP = 1.1; // meia espessura da fenda
+const HALF_GAP = 0.7; // meia espessura da fenda
 const EDGE = 2.4; // espessura do contorno de cada metade, junto à fenda
 
 // Região acima da linha em zigue-zague deslocada `dy` do centro (a linha fica
