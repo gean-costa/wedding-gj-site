@@ -9,6 +9,7 @@ import {
   CasaOnzeJanelas,
   EstacaoDasDocas,
   FortePresepio,
+  MercadoSaoBras,
   RelogioVerOPeso,
   SeloPostal,
   TheatroDaPaz,
@@ -39,6 +40,7 @@ const leftStamps = [
 const rightStamps = [
   { title: "Estação das Docas", C: EstacaoDasDocas, w: "w-44", wSmall: "w-24", rotate: 3 },
   { title: "Praça do Relógio", C: RelogioVerOPeso, w: "w-14", wSmall: "w-7", rotate: -3 },
+  { title: "Mercado de São Brás", C: MercadoSaoBras, w: "w-48", wSmall: "w-24", rotate: 2 },
 ];
 
 export default function ConfirmarPresencaPage() {
@@ -92,7 +94,7 @@ export default function ConfirmarPresencaPage() {
           </div>
 
           {/* Selos da direita (só em telas largas) */}
-          <div className="hidden w-60 flex-col items-center gap-12 pt-24 xl:flex">
+          <div className="hidden w-60 flex-col items-center gap-10 pt-16 xl:flex">
             {rightStamps.map(({ title, C, w, rotate }) => (
               <SeloPostal key={title} title={title} rotate={rotate}>
                 <C variant="selo" className={w} />

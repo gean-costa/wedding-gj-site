@@ -7,6 +7,7 @@ import {
   CasaOnzeJanelas,
   EstacaoDasDocas,
   FortePresepio,
+  MercadoSaoBras,
   RelogioVerOPeso,
   SeloPostal,
   TheatroDaPaz,
@@ -30,6 +31,7 @@ const landmarks = [
   { name: "Relógio (Praça do Relógio)", C: RelogioVerOPeso, w: "w-16" },
   { name: "Forte do Presépio", C: FortePresepio, w: "w-60" },
   { name: "Casa das Onze Janelas", C: CasaOnzeJanelas, w: "w-64" },
+  { name: "Mercado de São Brás", C: MercadoSaoBras, w: "w-64" },
 ];
 
 // Selos do estilo D: cada um com a ilustração e a legenda.
@@ -41,6 +43,7 @@ const selos = [
   { title: "Praça do Relógio", C: RelogioVerOPeso, w: "w-16", rotate: -1.5 },
   { title: "Forte do Presépio", C: FortePresepio, w: "w-52", rotate: 1 },
   { title: "Casa das Onze Janelas", C: CasaOnzeJanelas, w: "w-56", rotate: -2 },
+  { title: "Mercado de São Brás", C: MercadoSaoBras, w: "w-56", rotate: 1.5 },
 ];
 
 export default function IlustracoesPage() {

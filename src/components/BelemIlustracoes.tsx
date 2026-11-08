@@ -455,6 +455,59 @@ export function RelogioVerOPeso({ variant = "linha", className }: Props) {
   );
 }
 
+// Mercado de São Brás: prédio longo de dois andares com pavilhão central
+// saliente (relógio sob coroamento curvo, grande portão em arco ladeado por
+// pilastras com águias); térreo rusticado com portas em arco sobre rodapé
+// escuro; andar de cima com janelas e balaustrada; telhado metálico com lanternim.
+export function MercadoSaoBras({ variant = "linha", className }: Props) {
+  const wingDoors = [24, 46, 68, 90, 170, 192, 214, 236];
+  const windows = [20, 33, 46, 59, 72, 85, 98, 162, 175, 188, 201, 214, 227, 240];
+  return (
+    <svg viewBox="0 0 260 128" className={className} aria-hidden>
+      <Wash variant={variant} d="M8 100 C2 48 70 14 130 18 C200 14 258 52 252 104 C246 128 14 128 8 100 Z" />
+
+      {/* Telhado metálico com lanternim */}
+      <path d="M12 46 L38 30 H222 L248 46 Z" {...body(variant, "light")} />
+      <rect x="86" y="24" width="88" height="6" {...body(variant, "dark")} />
+      <path d="M50 38 H210" {...line(variant, "main", 0.6)} />
+
+      {/* Andar de cima: cornija, janelas e balaustrada */}
+      <rect x="6" y="44" width="248" height="4" {...body(variant, "dark")} />
+      <rect x="10" y="48" width="240" height="24" {...body(variant)} />
+      {windows.map((x) => (
+        <rect key={x} x={x - 3.5} y="52" width="7" height="11" {...detail(variant)} />
+      ))}
+      <rect x="10" y="66" width="240" height="6" {...body(variant, "light")} />
+      {Array.from({ length: 40 }, (_, i) => 13 + i * 6).filter((x) => x < 104 || x > 156).map((x) => (
+        <rect key={x} x={x} y="67.5" width="2" height="3" {...detail(variant)} />
+      ))}
+
+      {/* Térreo rusticado com portas em arco e rodapé escuro */}
+      <rect x="10" y="72" width="240" height="40" {...body(variant)} />
+      <path d="M10 80 H250 M10 88 H250 M10 96 H250 M10 104 H250" {...line(variant, "light", 0.6)} />
+      {wingDoors.map((c) => (
+        <path key={c} d={arch(c, 112, 12, 30)} {...detail(variant)} />
+      ))}
+      <rect x="8" y="112" width="244" height="6" {...body(variant, "dark")} />
+
+      {/* Pavilhão central: coroamento com relógio, pilastras com águias e portão em arco */}
+      <rect x="106" y="40" width="48" height="72" {...body(variant, "light")} />
+      <path d="M108 40 Q130 18 152 40 Z" {...body(variant)} />
+      <path d="M130 22 V14" {...line(variant, "dark", 1.1)} />
+      <circle cx="130" cy="33" r="5" {...detail(variant)} />
+      <rect x="108" y="44" width="7" height="68" {...body(variant)} />
+      <rect x="145" y="44" width="7" height="68" {...body(variant)} />
+      {[111.5, 148.5].map((x) => (
+        <path key={x} d={`M${x - 5} 84 Q${x} 74 ${x + 5} 84 L${x} 80 Z`} {...body(variant, "dark")} />
+      ))}
+      <path d={arch(130, 112, 22, 52)} {...detail(variant)} />
+      <path d="M124 112 V78 M130 112 V72 M136 112 V78 M120 92 H140" {...line(variant, "light", 0.6)} />
+
+      <path d="M0 118 H260" {...line(variant, "dark", 1.4)} />
+    </svg>
+  );
+}
+
 /* ------------------------------------------------------------- Selo postal */
 
 // Selo de carta, inspirado no selo dos Correios do Theatro da Paz (1978):
