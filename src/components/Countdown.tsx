@@ -16,7 +16,8 @@ function getRemaining(target: number): Remaining {
 
 // A hora atual só é lida no navegador (useEffect), nunca durante a geração da
 // página no servidor; antes disso mostramos "--".
-export function Countdown({ target }: { target: string }) {
+// `compact` mantém o tamanho de celular em qualquer tela (útil em prévias).
+export function Countdown({ target, compact = false }: { target: string; compact?: boolean }) {
   const [remaining, setRemaining] = useState<Remaining | null>(null);
 
   useEffect(() => {
@@ -35,16 +36,19 @@ export function Countdown({ target }: { target: string }) {
   ];
 
   return (
-    <div className="flex justify-center gap-2 min-[360px]:gap-3 sm:gap-6" aria-label="Contagem regressiva">
+    <div
+      className={`flex justify-center gap-2 ${compact ? "" : "min-[360px]:gap-3 sm:gap-6"}`}
+      aria-label="Contagem regressiva"
+    >
       {units.map(([key, label]) => (
         <div
           key={key}
-          className="flex w-14 flex-col items-center rounded-lg bg-primary py-3 text-white min-[360px]:w-16 sm:w-24"
+          className={`flex w-14 flex-col items-center rounded-lg bg-primary py-3 text-white ${compact ? "" : "min-[360px]:w-16 sm:w-24"}`}
         >
-          <span className="font-serif text-2xl tabular-nums sm:text-4xl">
+          <span className={`font-serif text-2xl tabular-nums ${compact ? "" : "sm:text-4xl"}`}>
             {remaining ? String(remaining[key]).padStart(2, "0") : "--"}
           </span>
-          <span className="text-xs uppercase tracking-widest sm:text-sm">{label}</span>
+          <span className={`text-xs uppercase tracking-widest ${compact ? "" : "sm:text-sm"}`}>{label}</span>
         </div>
       ))}
     </div>

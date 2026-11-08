@@ -5,6 +5,8 @@ import type { ComponentType } from "react";
 import type { Metadata } from "next";
 import { AzulejoBackground } from "@/components/Azulejo";
 import { azulejoDesigns } from "@/components/AzulejoDesigns";
+import { Countdown } from "@/components/Countdown";
+import { wedding } from "@/lib/wedding";
 
 export const metadata: Metadata = { title: "Azulejos guardados" };
 
@@ -15,8 +17,18 @@ function Variant({ id, label, Tile }: { id: string; label: string; Tile: Compone
       <svg viewBox="0 0 100 100" className="w-56 max-w-full shadow-md sm:w-64" aria-hidden>
         <Tile />
       </svg>
-      <div className="relative h-64 w-full max-w-md overflow-hidden shadow-md sm:h-80">
-        <AzulejoBackground id={id} Tile={Tile} size={112} />
+      {/* Parede com o cartão da página inicial por cima */}
+      <div className="relative flex min-h-96 w-full max-w-xl items-center justify-center overflow-hidden px-4 py-12 shadow-md sm:px-10">
+        <AzulejoBackground id={id} Tile={Tile} />
+        <div className="relative flex w-full flex-col items-center gap-4 rounded-sm border-4 border-double border-primary bg-paper px-3 py-8 text-center shadow-lg">
+          <h2 className="whitespace-nowrap font-script text-5xl leading-none text-primary sm:text-6xl">
+            {wedding.brideFirstName} <span className="text-[0.7em]">&</span> {wedding.groomFirstName}
+          </h2>
+          <p className="font-serif text-base sm:text-lg">
+            {wedding.dateLabel} · {wedding.city}
+          </p>
+          <Countdown target={wedding.date.toISOString()} compact />
+        </div>
       </div>
     </div>
   );
