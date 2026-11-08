@@ -6,15 +6,16 @@ import { Floreio, LetraDeBarco } from "@/components/LetraDeBarco";
 // Listras pintadas no casco, de cima para baixo.
 const hullStripes = ["h-3 bg-ink", "h-1.5 bg-paper", "h-2 bg-primary", "h-1 bg-paper", "h-1 bg-secondary"];
 
+// `small` e `big` são as duas linhas do letreiro; `subtitle` vem logo abaixo dele.
 export function CascoDeBarco({
-  eyebrow,
   small,
   big,
+  subtitle,
   children,
 }: {
-  eyebrow: string;
   small: string;
   big: string;
+  subtitle?: string;
   children?: React.ReactNode;
 }) {
   return (
@@ -23,12 +24,12 @@ export function CascoDeBarco({
         <div key={s} className={s} />
       ))}
       <div className="flex flex-col items-center gap-3 px-4 pb-24 pt-12 text-center sm:pt-16">
-        <p className="text-xs uppercase tracking-[0.4em] text-stone sm:text-sm">{eyebrow}</p>
         <h1 className="flex flex-col items-center">
           {/* Tamanhos acompanham a largura da tela para caber em celulares pequenos. */}
           <LetraDeBarco className="text-[clamp(1.75rem,13vw,4rem)]">{small}</LetraDeBarco>
           <LetraDeBarco className="text-[clamp(2.75rem,18vw,8rem)]">{big}</LetraDeBarco>
         </h1>
+        {subtitle && <p className="mt-1 font-serif text-xl italic text-primary sm:text-2xl">{subtitle}</p>}
         <Floreio className="mt-2 w-56 text-ink sm:w-72" />
         {children && <div className="mt-2 max-w-xl font-serif text-lg sm:text-xl">{children}</div>}
       </div>

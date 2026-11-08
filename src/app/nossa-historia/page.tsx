@@ -20,7 +20,7 @@ export default function NossaHistoriaPage() {
     <>
       <SiteHeader />
       <main className="flex-1 pt-16">
-        <CascoDeBarco eyebrow="Uma viagem a dois" small="Nossa" big="História">
+        <CascoDeBarco small="Nossa" big="História" subtitle="Uma viagem a dois">
           Cada porto desta rota é um momento que vivemos juntos, até chegar ao próximo destino: o nosso casamento.
         </CascoDeBarco>
 
@@ -42,7 +42,7 @@ export default function NossaHistoriaPage() {
               href="/confirmar-presenca"
               className="rounded-md bg-ink px-8 py-3.5 text-sm font-semibold uppercase tracking-widest text-white transition-colors hover:bg-primary"
             >
-              Confirme seu embarque
+              Confirmar presença
             </Link>
           </div>
         </section>

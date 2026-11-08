@@ -1,9 +1,7 @@
-// Confirmação de presença com a identidade dos abridores de letras (pintura de
-// letras dos barcos ribeirinhos): o topo é o casco do barco e o formulário é um
-// bilhete de passagem.
+// Confirmação de presença, em visual neutro (estilo base do site). A página
+// ainda vai ganhar uma identidade própria.
 import type { Metadata } from "next";
-import { CascoDeBarco } from "@/components/CascoDeBarco";
-import { RsvpTicket } from "@/components/RsvpTicket";
+import { RsvpForm } from "@/components/RsvpForm";
 import { SiteHeader } from "@/components/SiteHeader";
 import { wedding } from "@/lib/wedding";
 
@@ -16,15 +14,16 @@ export default function ConfirmarPresencaPage() {
   return (
     <>
       <SiteHeader />
-      <main className="flex-1 pt-16">
-        <CascoDeBarco eyebrow="Confirmação de presença" small="Confirme sua" big="Presença">
-          Nossa viagem começa no dia {wedding.dateLabel}. Garanta seu lugar a bordo preenchendo o bilhete abaixo.
-        </CascoDeBarco>
-
-        {/* Rio, com o bilhete */}
-        <section className="bg-river px-4 pb-20 pt-6">
-          <RsvpTicket />
-        </section>
+      <main className="flex-1 px-4 pb-20 pt-28">
+        <div className="mx-auto max-w-2xl">
+          <header className="mb-10 text-center">
+            <h1 className="font-serif text-4xl sm:text-5xl">Confirmação de presença</h1>
+            <p className="mt-4 font-serif text-lg">
+              {wedding.dateLabel} · {wedding.ceremony.name}, {wedding.ceremony.time}
+            </p>
+          </header>
+          <RsvpForm />
+        </div>
       </main>
     </>
   );
