@@ -1,4 +1,4 @@
-// Ilustrações de Belém (pontos turísticos, garças e urubus) em SVG, nas cores
+// Ilustrações dos pontos turísticos de Belém em SVG, nas cores
 // da paleta, desenhadas a partir de fotos reais (simplificadas). Cada desenho
 // aceita quatro estilos:
 //   "linha"    - traço fino, sem preenchimento (gravura / caderno de viagem)
@@ -152,28 +152,6 @@ export function VerOPeso({ variant = "linha", className }: Props) {
         <path key={x} d={`M${x} 154 V160`} {...line(variant, "light", 0.7)} />
       ))}
       <Water variant={variant} y={167} width={260} />
-    </svg>
-  );
-}
-
-// Barco regional de passageiros: casco com faixa escura embaixo, convés com
-// janelas, toldo, pneus de proteção na lateral e a água em volta.
-export function BarcoRegional({ variant = "linha", className }: Props) {
-  return (
-    <svg viewBox="0 0 160 80" className={className} aria-hidden>
-      <Wash variant={variant} d="M6 50 C10 20 60 10 100 14 C150 14 160 50 150 64 C140 80 20 80 6 50 Z" />
-      <path d="M10 22 L140 16 L144 20 L12 26 Z" {...body(variant, "dark")} />
-      <rect x="18" y="24" width="112" height="22" {...body(variant, "light")} />
-      {[24, 42, 60, 78, 96].map((x) => (
-        <rect key={x} x={x} y="28" width="14" height="10" {...detail(variant)} />
-      ))}
-      <rect x="114" y="28" width="12" height="18" {...detail(variant)} />
-      <path d="M4 46 H152 L144 64 Q80 70 14 62 Z" {...body(variant)} />
-      <path d="M8 56 Q80 62 148 54 L144 64 Q80 70 14 62 Z" {...body(variant, "dark")} />
-      {[40, 110].map((x) => (
-        <circle key={x} cx={x} cy="50" r="5" {...body(variant, "dark")} />
-      ))}
-      <Water variant={variant} y={74} width={160} />
     </svg>
   );
 }
@@ -473,65 +451,6 @@ export function RelogioVerOPeso({ variant = "linha", className }: Props) {
       <rect x="31" y="152" width="18" height="14" {...detail(variant)} />
       <path d="M18 172 H62 L66 182 H14 Z" {...body(variant, "dark")} />
       <path d="M10 182 H70 L76 194 H4 Z" {...body(variant, "dark")} />
-    </svg>
-  );
-}
-
-/* ------------------------------------------------------------------ Aves */
-
-// Garça em pé, olhando para a esquerda.
-export function GarcaEmPe({ variant = "linha", className }: Props) {
-  return (
-    <svg viewBox="0 0 60 100" className={className} aria-hidden>
-      <Wash variant={variant} d="M8 40 C10 14 40 10 50 30 C60 54 48 80 30 78 C12 76 6 60 8 40 Z" />
-      <path d="M22 50 C24 40 42 38 50 44 C54 48 50 56 38 58 C30 60 22 58 22 50 Z" {...body(variant, "light")} />
-      <path d="M24 48 C14 40 28 30 19 20" {...line(variant, "light", 2.2)} />
-      <circle cx="19" cy="18" r="2.6" {...body(variant, "light")} />
-      <path d="M17 18 L5 20" {...line(variant, "dark", 1.3)} />
-      <path d="M31 58 L29 96 M36 58 L38 96" {...line(variant, "dark", 1.2)} />
-    </svg>
-  );
-}
-
-// Garça voando, asas abertas, pescoço recolhido e pernas para trás.
-export function GarcaVoando({ variant = "linha", className }: Props) {
-  return (
-    <svg viewBox="0 0 100 50" className={className} aria-hidden>
-      <Wash variant={variant} d="M6 22 C20 4 70 2 94 12 C100 30 70 44 44 42 C22 40 2 36 6 22 Z" />
-      <path d="M48 26 Q30 4 2 8 Q24 18 42 30 Z" {...body(variant, "light")} />
-      <path d="M56 26 Q74 6 98 4 Q80 18 60 30 Z" {...body(variant, "light")} />
-      <path d="M40 28 C44 24 60 24 66 28 C60 32 46 32 40 28 Z" {...body(variant, "light")} />
-      <path d="M41 28 C36 30 36 24 33 26" {...line(variant, "light", 1.8)} />
-      <path d="M33 26 L24 27" {...line(variant, "dark", 1.2)} />
-      <path d="M65 29 L86 33" {...line(variant, "dark", 1.1)} />
-    </svg>
-  );
-}
-
-// Urubu pousado, encurvado, cabeça pequena e careca.
-export function UrubuPousado({ variant = "linha", className }: Props) {
-  return (
-    <svg viewBox="0 0 50 72" className={className} aria-hidden>
-      <Wash variant={variant} d="M6 40 C6 14 40 8 46 32 C52 58 40 70 24 68 C10 66 6 56 6 40 Z" />
-      <path d="M14 62 C8 42 16 24 28 24 C38 24 44 40 38 62 Z" {...body(variant, "dark")} />
-      <path d="M38 62 L44 68 L34 66 Z" {...body(variant, "dark")} />
-      <circle cx="24" cy="19" r="4.5" {...body(variant, "light")} />
-      <path d="M20 19 C16 19 15 22 17 23" {...line(variant, "dark", 1.3)} />
-      <path d="M22 62 V69 M30 62 V69 M6 70 H46" {...line(variant, "dark", 1.2)} />
-    </svg>
-  );
-}
-
-// Urubu planando: asas largas e retas com as pontas "em dedos".
-export function UrubuVoando({ variant = "linha", className }: Props) {
-  return (
-    <svg viewBox="0 0 110 40" className={className} aria-hidden>
-      <Wash variant={variant} d="M4 20 C14 4 96 2 106 18 C110 32 70 38 54 36 C30 34 0 32 4 20 Z" />
-      <path
-        d="M55 17 L22 13 L10 14 L4 11 L7 16 L1 17 L7 20 L22 22 L48 23 L55 30 L62 23 L88 22 L103 20 L109 17 L103 16 L106 11 L100 14 L88 13 Z"
-        {...body(variant, "dark")}
-      />
-      <circle cx="55" cy="14" r="3" {...body(variant, "light")} />
     </svg>
   );
 }

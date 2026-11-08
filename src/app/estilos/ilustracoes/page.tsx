@@ -1,19 +1,14 @@
-// Página TEMPORÁRIA (não publicar): estilos de ilustração de Belém e formas de
-// distribuí-las na página de confirmação de presença.
+// Página TEMPORÁRIA (não publicar): estilos de ilustração dos pontos turísticos
+// de Belém e formas de distribuí-las na página de confirmação de presença.
 import type { Metadata } from "next";
 import {
-  BarcoRegional,
   BasilicaNazare,
-  EstacaoDasDocas,
-  GarcaEmPe,
-  GarcaVoando,
   CasaOnzeJanelas,
+  EstacaoDasDocas,
   FortePresepio,
   RelogioVerOPeso,
   SeloPostal,
   TheatroDaPaz,
-  UrubuPousado,
-  UrubuVoando,
   VerOPeso,
   type IlustracaoVariant,
 } from "@/components/BelemIlustracoes";
@@ -34,14 +29,6 @@ const landmarks = [
   { name: "Relógio (Praça do Relógio)", C: RelogioVerOPeso, w: "w-16" },
   { name: "Forte do Presépio", C: FortePresepio, w: "w-60" },
   { name: "Casa das Onze Janelas", C: CasaOnzeJanelas, w: "w-64" },
-];
-
-const extras = [
-  { name: "Garça em pé", C: GarcaEmPe, w: "w-14" },
-  { name: "Garça voando", C: GarcaVoando, w: "w-28" },
-  { name: "Urubu pousado", C: UrubuPousado, w: "w-12" },
-  { name: "Urubu voando", C: UrubuVoando, w: "w-32" },
-  { name: "Barco regional (opcional)", C: BarcoRegional, w: "w-36" },
 ];
 
 // Selos do estilo D: cada um com a ilustração e a legenda.
@@ -76,14 +63,6 @@ export default function IlustracoesPage() {
               </figure>
             ))}
           </div>
-          <div className="mx-auto mt-8 flex max-w-4xl flex-wrap items-end justify-center gap-x-10 gap-y-6">
-            {extras.map(({ name, C, w }) => (
-              <figure key={name} className="flex flex-col items-center gap-2">
-                <C variant={v.id} className={w} />
-                <figcaption className="text-xs text-stone">{name}</figcaption>
-              </figure>
-            ))}
-          </div>
         </section>
       ))}
 
@@ -100,56 +79,43 @@ export default function IlustracoesPage() {
             </SeloPostal>
           ))}
         </div>
-        <div className="mx-auto mt-8 flex max-w-4xl flex-wrap items-end justify-center gap-x-10 gap-y-6">
-          {extras.map(({ name, C, w }) => (
-            <figure key={name} className="flex flex-col items-center gap-2">
-              <C variant="selo" className={w} />
-              <figcaption className="text-xs text-stone">{name}</figcaption>
-            </figure>
-          ))}
-        </div>
       </section>
 
       <h2 className="bg-ink px-4 py-2 text-center text-sm font-semibold text-white">
         Parte 2 · Distribuição na página (miniaturas; 1 a 3 em traço fino, 4 com selos)
       </h2>
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-10 md:grid-cols-2 xl:grid-cols-4">
-        <Layout name="1. Paisagem + pássaros" note="Horizonte com os pontos turísticos na beira do rio, no rodapé; garças e urubus voando pela página e pousados perto do formulário.">
-          <GarcaVoando className="absolute left-5 top-14 w-16" />
-          <UrubuVoando className="absolute right-5 top-20 w-20" />
-          <GarcaVoando className="absolute right-3 top-[44%] w-11" />
-          <UrubuPousado className="absolute left-5 top-[56%] w-7" />
-          <GarcaEmPe className="absolute right-5 top-[58%] w-9" />
+        <Layout name="1. Paisagem" note="Horizonte com os pontos turísticos lado a lado no rodapé, como a orla de Belém vista do rio.">
           <div className="absolute inset-x-0 bottom-0 flex items-end justify-center gap-0.5 px-1">
-            <BasilicaNazare className="w-10" />
-            <TheatroDaPaz className="w-[4.5rem]" />
-            <RelogioVerOPeso className="w-4" />
-            <VerOPeso className="w-[4.5rem]" />
-            <EstacaoDasDocas className="w-16" />
+            <FortePresepio className="w-16" />
+            <BasilicaNazare className="w-9" />
+            <TheatroDaPaz className="w-16" />
+            <RelogioVerOPeso className="w-3.5" />
+            <VerOPeso className="w-16" />
+            <EstacaoDasDocas className="w-14" />
           </div>
+          <CasaOnzeJanelas className="absolute left-1/2 top-12 w-36 -translate-x-1/2" />
         </Layout>
 
-        <Layout name="2. Um ponto por seção" note="Cada parte da página tem a sua ilustração ao lado; os pássaros fazem a ligação entre elas.">
+        <Layout name="2. Um ponto por seção" note="Cada parte da página tem a sua ilustração ao lado, como se o convidado passeasse pela cidade enquanto preenche.">
           <VerOPeso className="absolute left-4 top-12 w-28" />
-          <UrubuVoando className="absolute right-5 top-16 w-16" />
+          <RelogioVerOPeso className="absolute right-10 top-12 w-6" />
           <TheatroDaPaz className="absolute left-0.5 top-[44%] w-16" />
-          <GarcaVoando className="absolute right-2 top-[38%] w-14" />
-          <BasilicaNazare className="absolute right-1 top-[56%] w-14" />
-          <GarcaEmPe className="absolute bottom-5 left-8 w-9" />
-          <EstacaoDasDocas className="absolute bottom-2 right-6 w-28" />
+          <BasilicaNazare className="absolute right-1 top-[50%] w-14" />
+          <FortePresepio className="absolute bottom-3 left-3 w-28" />
+          <EstacaoDasDocas className="absolute bottom-2 right-3 w-28" />
         </Layout>
 
         <Layout name="3. Moldura de cartão-postal" note="As ilustrações contornam o formulário pelas bordas, como a moldura de um cartão-postal de Belém." framed>
           <VerOPeso className="absolute left-2 top-11 w-28" />
           <TheatroDaPaz className="absolute right-2 top-11 w-28" />
           <RelogioVerOPeso className="absolute left-4 top-[40%] w-6" />
-          <UrubuPousado className="absolute right-4 top-[46%] w-8" />
-          <BasilicaNazare className="absolute bottom-2 left-3 w-16" />
-          <GarcaEmPe className="absolute bottom-3 left-[40%] w-8" />
-          <EstacaoDasDocas className="absolute bottom-2 right-2 w-24" />
+          <BasilicaNazare className="absolute right-1 top-[42%] w-12" />
+          <FortePresepio className="absolute bottom-2 left-2 w-28" />
+          <CasaOnzeJanelas className="absolute bottom-2 right-2 w-28" />
         </Layout>
 
-        <Layout name="4. Carta selada" note="O formulário vira uma carta: selos de Belém no canto, carimbo do correio com a data do casamento e garças e urubus em volta." letter>
+        <Layout name="4. Carta selada" note="O formulário vira uma carta: selos de Belém no canto, carimbo do correio com a data do casamento e mais selos espalhados." letter>
           <div className="absolute right-4 top-[33%] z-20 flex scale-[0.28] origin-top-right gap-2">
             <SeloPostal title="Mercado de Ferro" rotate={-4}>
               <VerOPeso variant="selo" className="w-48" />
@@ -159,20 +125,21 @@ export default function IlustracoesPage() {
             </SeloPostal>
           </div>
           <Carimbo className="absolute right-[5.5rem] top-[38%] z-30 w-14" />
-          <GarcaVoando className="absolute left-5 top-14 w-16" />
-          <UrubuVoando className="absolute right-6 top-16 w-20" />
-          <UrubuPousado className="absolute left-4 top-[62%] w-7" />
+          <div className="absolute left-3 top-12 z-20 scale-[0.3] origin-top-left">
+            <SeloPostal title="Casa das Onze Janelas" rotate={-3}>
+              <CasaOnzeJanelas variant="selo" className="w-48" />
+            </SeloPostal>
+          </div>
           <div className="absolute bottom-3 left-3 z-20 scale-[0.38] origin-bottom-left">
             <SeloPostal title="Basílica de Nazaré" rotate={-3}>
               <BasilicaNazare variant="selo" className="w-32" />
             </SeloPostal>
           </div>
           <div className="absolute bottom-3 right-3 z-20 scale-[0.38] origin-bottom-right">
-            <SeloPostal title="Estação das Docas" rotate={4}>
-              <EstacaoDasDocas variant="selo" className="w-48" />
+            <SeloPostal title="Forte do Presépio" rotate={4}>
+              <FortePresepio variant="selo" className="w-48" />
             </SeloPostal>
           </div>
-          <GarcaEmPe className="absolute bottom-6 left-[46%] w-8" />
         </Layout>
       </div>
     </main>
