@@ -1,18 +1,34 @@
 @import "tailwindcss";
 
+/* Paleta do casamento. Principais: primary (#667588) e secondary (#98AEC3).
+   secondary tem pouco contraste com fundo claro: use em detalhes e fundos,
+   não em textos pequenos. */
 :root {
-  --background: #fbf8f3;
-  --foreground: #3d3a36;
-  --accent: #8a6d3b;
+  --ink: #575c60;
+  --primary: #667588;
+  --secondary: #98aec3;
+  --stone: #898788;
+  --mist: #d9d9d9;
+  --paper: #f6f7f9;
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --accent: var(--primary);
 }
 
 @theme inline {
+  --color-ink: var(--ink);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-stone: var(--stone);
+  --color-mist: var(--mist);
+  --color-paper: var(--paper);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
   --font-sans: var(--font-geist-sans);
   --font-serif: var(--font-playfair);
-  --font-script: var(--font-great-vibes);
+  --font-script: var(--font-italianno);
 }
 
 body {

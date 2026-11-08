@@ -35,11 +35,11 @@ export function Countdown({ target }: { target: string }) {
   ];
 
   return (
-    <div className="flex justify-center gap-3 sm:gap-6" aria-label="Contagem regressiva">
+    <div className="flex justify-center gap-2 min-[360px]:gap-3 sm:gap-6" aria-label="Contagem regressiva">
       {units.map(([key, label]) => (
         <div
           key={key}
-          className="flex w-16 flex-col items-center rounded-lg bg-white/15 py-3 backdrop-blur-sm sm:w-24"
+          className="flex w-14 flex-col items-center rounded-lg bg-primary py-3 text-white min-[360px]:w-16 sm:w-24"
         >
           <span className="font-serif text-2xl tabular-nums sm:text-4xl">
             {remaining ? String(remaining[key]).padStart(2, "0") : "--"}

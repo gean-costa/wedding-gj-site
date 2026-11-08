@@ -12,7 +12,8 @@ export const wedding = {
   groom: "Gean Costa",
   groomFirstName: "Gean",
   brideFirstName: "Juliana",
-  shortNames: "Gean & Juliana",
+  // Ordem de exibição: noiva primeiro.
+  shortNames: "Juliana & Gean",
   // Belém fica em UTC-3 o ano todo (sem horário de verão).
   date: new Date("2027-11-13T19:30:00-03:00"),
   dateLabel: "13 de novembro de 2027",

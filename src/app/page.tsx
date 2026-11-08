@@ -1,3 +1,4 @@
+import { AzulejoBackground } from "@/components/Azulejo";
 import { Countdown } from "@/components/Countdown";
 import { mapsEmbedUrl, mapsSearchUrl, wedding, type Venue } from "@/lib/wedding";
 
@@ -11,7 +12,7 @@ export default function Home() {
     <>
       <header className="fixed inset-x-0 top-0 z-10 bg-background/80 backdrop-blur">
         <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-          <a href="#inicio" className="font-script text-2xl text-accent">
+          <a href="#inicio" className="whitespace-nowrap font-script text-3xl text-accent">
             {wedding.shortNames}
           </a>
           <ul className="flex gap-4 text-sm sm:gap-6">
@@ -29,17 +30,20 @@ export default function Home() {
       <main className="flex-1">
         <section
           id="inicio"
-          className="flex min-h-svh flex-col items-center justify-center gap-8 bg-gradient-to-b from-[#8a6d3b] to-[#5c4724] px-4 text-center text-white"
+          className="relative flex min-h-svh items-center justify-center px-4 pb-10 pt-20"
         >
-          <p className="text-sm uppercase tracking-[0.3em]">Vamos nos casar</p>
-          <h1 className="font-script text-6xl sm:text-8xl">
-            {wedding.groomFirstName} <span className="text-4xl sm:text-6xl">&</span>{" "}
-            {wedding.brideFirstName}
-          </h1>
-          <p className="font-serif text-xl sm:text-2xl">
-            {wedding.dateLabel} · {wedding.city}
-          </p>
-          <Countdown target={wedding.date.toISOString()} />
+          <AzulejoBackground id="azulejo-inicio" />
+          <div className="relative flex w-full max-w-3xl flex-col items-center gap-6 rounded-sm border-4 border-double border-primary bg-paper px-4 py-12 text-center shadow-lg sm:px-14">
+            {/* Tamanho acompanha a largura da tela para os nomes caberem sempre numa linha. */}
+            <h1 className="whitespace-nowrap font-script text-[clamp(3rem,17vw,8rem)] leading-none text-primary">
+              {wedding.brideFirstName} <span className="text-[0.7em]">&</span>{" "}
+              {wedding.groomFirstName}
+            </h1>
+            <p className="font-serif text-lg sm:text-2xl">
+              {wedding.dateLabel} · {wedding.city}
+            </p>
+            <Countdown target={wedding.date.toISOString()} />
+          </div>
         </section>
 
         <section id="historia" className="mx-auto max-w-3xl scroll-mt-16 px-4 py-20 text-center">
