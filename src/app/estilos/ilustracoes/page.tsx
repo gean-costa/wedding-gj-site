@@ -3,7 +3,7 @@
 import type { Metadata } from "next";
 import {
   BasilicaNazare,
-  FarolBelem,
+  MangalDasGarcas,
   GarcaEmPe,
   GarcaVoando,
   TheatroDaPaz,
@@ -22,10 +22,10 @@ const variants: { id: IlustracaoVariant; name: string; note: string }[] = [
 ];
 
 const landmarks = [
-  { name: "Ver-o-Peso", C: VerOPeso, w: "w-56" },
-  { name: "Theatro da Paz", C: TheatroDaPaz, w: "w-56" },
-  { name: "Basílica de Nazaré", C: BasilicaNazare, w: "w-40" },
-  { name: "Farol (Mangal das Garças)", C: FarolBelem, w: "w-16" },
+  { name: "Ver-o-Peso (Mercado de Ferro)", C: VerOPeso, w: "w-64" },
+  { name: "Theatro da Paz", C: TheatroDaPaz, w: "w-64" },
+  { name: "Basílica de Nazaré", C: BasilicaNazare, w: "w-44" },
+  { name: "Mangal das Garças", C: MangalDasGarcas, w: "w-60" },
 ];
 
 const birds = [
@@ -78,9 +78,9 @@ export default function IlustracoesPage() {
           <UrubuPousado className="absolute left-5 top-[56%] w-7" />
           <GarcaEmPe className="absolute right-5 top-[58%] w-9" />
           <div className="absolute inset-x-0 bottom-0 flex items-end justify-center gap-1 px-2">
-            <BasilicaNazare className="w-16" />
+            <BasilicaNazare className="w-12" />
             <TheatroDaPaz className="w-24" />
-            <FarolBelem className="w-6" />
+            <MangalDasGarcas className="w-20" />
             <VerOPeso className="w-24" />
           </div>
         </Layout>
@@ -90,15 +90,15 @@ export default function IlustracoesPage() {
           <UrubuVoando className="absolute right-5 top-16 w-16" />
           <TheatroDaPaz className="absolute left-0.5 top-[44%] w-16" />
           <GarcaVoando className="absolute right-2 top-[38%] w-14" />
-          <BasilicaNazare className="absolute right-1 top-[58%] w-14" />
+          <BasilicaNazare className="absolute right-1 top-[56%] w-14" />
           <GarcaEmPe className="absolute bottom-5 left-8 w-9" />
-          <FarolBelem className="absolute bottom-3 right-12 w-7" />
+          <MangalDasGarcas className="absolute bottom-2 right-6 w-28" />
         </Layout>
 
         <Layout name="3. Moldura de cartão-postal" note="As ilustrações contornam o formulário pelas bordas, como a moldura de um cartão-postal de Belém." framed>
           <VerOPeso className="absolute left-2 top-11 w-28" />
           <TheatroDaPaz className="absolute right-2 top-11 w-28" />
-          <FarolBelem className="absolute left-3 top-[42%] w-7" />
+          <GarcaVoando className="absolute left-2 top-[42%] w-14" />
           <UrubuPousado className="absolute right-4 top-[46%] w-8" />
           <BasilicaNazare className="absolute bottom-2 left-3 w-20" />
           <GarcaEmPe className="absolute bottom-3 left-[40%] w-8" />

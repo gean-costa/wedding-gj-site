@@ -50,94 +50,234 @@ function Water({ variant, y, width }: { variant: IlustracaoVariant; y: number; w
 
 /* ---------------------------------------------------------------- Pontos */
 
-// Mercado de Ferro do Ver-o-Peso: corpo baixo com arcos e quatro torrinhas pontudas.
+// Arco (janela/porta): base em y, topo semicircular, largura w.
+const arch = (cx: number, y: number, w: number, h: number) =>
+  `M${cx - w / 2} ${y} V${y - h + w / 2} A${w / 2} ${w / 2} 0 0 1 ${cx + w / 2} ${y - h + w / 2} V${y} Z`;
+
+// Mercado de Ferro do Ver-o-Peso, visto da baía: corpo baixo com uma fileira de
+// janelas em arco e telhado de quatro águas; quatro torres quadradas com flechas
+// altas e esguias (as duas de trás aparecem menores, atrás do telhado).
 export function VerOPeso({ variant = "linha", className }: Props) {
-  const turrets = [16, 78, 142, 204];
   return (
-    <svg viewBox="0 0 220 118" className={className} aria-hidden>
-      <Wash variant={variant} d="M8 70 C20 30 90 22 120 30 C170 20 214 40 212 80 C210 108 30 112 8 70 Z" />
-      <rect x="10" y="56" width="200" height="6" {...body(variant, "dark")} />
-      <rect x="15" y="62" width="190" height="40" {...body(variant)} />
-      {turrets.map((x) => (
+    <svg viewBox="0 0 260 150" className={className} aria-hidden>
+      <Wash variant={variant} d="M12 110 C4 50 70 12 130 18 C200 10 256 60 248 118 C240 148 22 148 12 110 Z" />
+
+      {/* Torres de trás */}
+      {[96, 164].map((x) => (
         <g key={x}>
-          <rect x={x - 8} y="38" width="16" height="24" {...body(variant)} />
-          <path d={`M${x - 10} 38 L${x} 14 L${x + 10} 38 Z`} {...body(variant, "dark")} />
-          <path d={`M${x} 14 V6`} {...line(variant, "dark", 1.2)} />
-          <rect x={x - 3} y="44" width="6" height="10" rx="3" {...detail(variant)} />
+          <path d={`M${x - 7} 52 L${x} 26 L${x + 7} 52 Z`} {...body(variant, "dark")} />
+          <path d={`M${x} 26 V18`} {...line(variant, "dark", 1)} />
+          <rect x={x - 8} y="52" width="16" height="40" {...body(variant)} />
+          <path d={arch(x, 70, 6, 12)} {...detail(variant)} />
         </g>
       ))}
-      {Array.from({ length: 9 }, (_, i) => 22 + i * 20.5).map((x) => (
-        <path key={x} d={`M${x} 98 V80 A7 7 0 0 1 ${x + 14} 80 V98 Z`} {...detail(variant)} />
+
+      {/* Telhado de quatro águas e corpo com janelas em arco */}
+      <path d="M52 98 L66 86 H194 L208 98 Z" {...body(variant, "light")} />
+      <rect x="48" y="98" width="164" height="6" {...body(variant, "dark")} />
+      <rect x="52" y="104" width="156" height="28" {...body(variant)} />
+      {Array.from({ length: 11 }, (_, i) => 60 + i * 14).map((x) => (
+        <path key={x} d={arch(x + 4, 128, 9, 18)} {...detail(variant)} />
       ))}
-      <path d="M4 102 H216" {...line(variant, "dark", 1.4)} />
-      <Water variant={variant} y={110} width={220} />
+
+      {/* Torres da frente: fuste com nervuras, óculo, janela em arco e flecha alta */}
+      {[38, 222].map((x) => (
+        <g key={x}>
+          <path d={`M${x - 13} 50 L${x} 6 L${x + 13} 50 Z`} {...body(variant, "dark")} />
+          <path d={`M${x - 5} 50 L${x} 36 L${x + 5} 50 Z`} {...detail(variant)} />
+          <path d={`M${x} 6 V0`} {...line(variant, "dark", 1.2)} />
+          <rect x={x - 15} y="50" width="30" height="4" {...body(variant, "dark")} />
+          <rect x={x - 13} y="54" width="26" height="78" {...body(variant)} />
+          <path d={`M${x - 9} 58 V128 M${x + 9} 58 V128`} {...line(variant, "light", 0.8)} />
+          <circle cx={x} cy="72" r="5" {...detail(variant)} />
+          <path d={arch(x, 124, 10, 30)} {...detail(variant)} />
+        </g>
+      ))}
+
+      {/* Cais e água */}
+      <rect x="14" y="132" width="232" height="5" {...body(variant, "dark")} />
+      <Water variant={variant} y={144} width={260} />
     </svg>
   );
 }
 
-// Theatro da Paz: fachada neoclássica com colunas, frontão e cúpula ao fundo.
+// Theatro da Paz: térreo com cinco arcos; sacada com balaustrada e estátuas;
+// andar superior com seis colunas, janelas em arco e medalhões ovais; faixa com
+// o nome, frontão triangular; alas laterais com pilastras.
 export function TheatroDaPaz({ variant = "linha", className }: Props) {
+  const columns = [54, 80, 106, 134, 160, 186];
+  const bays = [67, 93, 120, 147, 173];
   return (
-    <svg viewBox="0 0 220 112" className={className} aria-hidden>
-      <Wash variant={variant} d="M14 80 C10 40 70 10 120 16 C180 12 216 50 206 86 C196 112 24 112 14 80 Z" />
-      <path d="M82 42 Q110 8 138 42 Z" {...body(variant, "light")} />
-      <rect x="105" y="12" width="10" height="9" {...body(variant, "dark")} />
-      <rect x="20" y="62" width="32" height="32" {...body(variant)} />
-      <rect x="168" y="62" width="32" height="32" {...body(variant)} />
-      {[26, 38, 174, 186].map((x) => (
-        <path key={x} d={`M${x} 88 V74 A4 4 0 0 1 ${x + 8} 74 V88 Z`} {...detail(variant)} />
+    <svg viewBox="0 0 240 150" className={className} aria-hidden>
+      <Wash variant={variant} d="M10 112 C0 52 60 12 120 16 C190 12 240 62 228 118 C220 148 20 150 10 112 Z" />
+
+      {/* Frontão */}
+      <path d="M46 44 L120 16 L194 44 Z" {...body(variant, "dark")} />
+      <path d="M66 41 L120 22 L174 41 Z" {...detail(variant)} />
+      <path d="M108 36 Q120 28 132 36 Q120 33 108 36 Z" {...body(variant, "light")} />
+
+      {/* Faixa com o nome */}
+      <rect x="44" y="44" width="152" height="8" {...body(variant)} />
+      <path d="M92 48 H148" {...line(variant, "light", 1.4)} />
+
+      {/* Alas laterais */}
+      {[12, 192].map((x) => (
+        <g key={x}>
+          <rect x={x - 2} y="42" width="40" height="5" {...body(variant, "dark")} />
+          <rect x={x} y="47" width="36" height="53" {...body(variant)} />
+          <path d={`M${x + 4} 50 V98 M${x + 32} 50 V98`} {...line(variant, "light", 0.9)} />
+          <path d={arch(x + 18, 90, 14, 28)} {...detail(variant)} />
+          <rect x={x + 11} y="110" width="14" height="24" {...detail(variant)} />
+        </g>
       ))}
-      <path d="M52 52 L110 28 L168 52 Z" {...body(variant, "dark")} />
-      <circle cx="110" cy="43" r="4" {...detail(variant)} />
-      <rect x="50" y="52" width="120" height="8" {...body(variant)} />
-      {[62, 81, 100, 120, 139, 158].map((x) => (
-        <rect key={x} x={x - 4} y="60" width="8" height="34" {...body(variant)} />
+
+      {/* Andar superior: colunas, janelas em arco e medalhões */}
+      <rect x="48" y="52" width="144" height="42" {...body(variant, "light")} />
+      {bays.map((c) => (
+        <g key={c}>
+          <ellipse cx={c} cy="63" rx="5" ry="6" {...detail(variant)} />
+          <path d={arch(c, 92, 12, 20)} {...detail(variant)} />
+        </g>
       ))}
-      <rect x="15" y="94" width="190" height="5" {...body(variant, "dark")} />
-      <rect x="10" y="99" width="200" height="5" {...body(variant)} />
+      {columns.map((x) => (
+        <g key={x}>
+          <rect x={x - 3} y="54" width="6" height="40" {...body(variant)} />
+          <rect x={x - 4.5} y="52" width="9" height="3" {...body(variant, "dark")} />
+        </g>
+      ))}
+
+      {/* Sacada: balaustrada e estátuas */}
+      <rect x="46" y="94" width="148" height="7" {...body(variant, "dark")} />
+      {Array.from({ length: 23 }, (_, i) => 51 + i * 6).map((x) => (
+        <rect key={x} x={x} y="95.5" width="2" height="4" {...detail(variant)} />
+      ))}
+      {[50, 190].map((x) => (
+        <g key={x}>
+          <path d={`M${x - 2.5} 94 V86 Q${x} 82 ${x + 2.5} 86 V94 Z`} {...body(variant, "dark")} />
+          <circle cx={x} cy="80" r="2" {...body(variant, "dark")} />
+        </g>
+      ))}
+
+      {/* Térreo com cinco arcos e base */}
+      <rect x="48" y="101" width="144" height="39" {...body(variant)} />
+      <path d="M48 112 H192 M48 124 H192" {...line(variant, "light", 0.7)} />
+      {bays.map((c) => (
+        <path key={c} d={arch(c, 140, 16, 32)} {...detail(variant)} />
+      ))}
+      <rect x="10" y="100" width="38" height="40" {...body(variant)} />
+      <rect x="192" y="100" width="38" height="40" {...body(variant)} />
+      <rect x="21" y="110" width="14" height="24" {...detail(variant)} />
+      <rect x="203" y="110" width="14" height="24" {...detail(variant)} />
+      <rect x="6" y="140" width="228" height="5" {...body(variant, "dark")} />
     </svg>
   );
 }
 
-// Basílica de Nazaré: frontão central com rosácea e portal, entre duas torres.
+// Basílica de Nazaré: duas torres com relógio, campanário em arco e cúpula com
+// lanterna; no centro, frontão com mosaico e cruz, faixas de inscrição,
+// rosácea, balaustrada e pórtico com quatro colunas e portal central.
 export function BasilicaNazare({ variant = "linha", className }: Props) {
   return (
-    <svg viewBox="0 0 200 140" className={className} aria-hidden>
-      <Wash variant={variant} d="M18 100 C8 50 50 6 100 10 C160 6 196 50 184 104 C176 136 26 138 18 100 Z" />
-      {[30, 138].map((x) => (
+    <svg viewBox="0 0 200 220" className={className} aria-hidden>
+      <Wash variant={variant} d="M14 160 C0 80 40 14 100 12 C166 10 202 80 188 166 C178 214 24 216 14 160 Z" />
+
+      {/* Torres */}
+      {[12, 148].map((x) => (
         <g key={x}>
-          <rect x={x} y="34" width="32" height="96" {...body(variant)} />
-          <path d={`M${x - 2} 34 Q${x + 16} 10 ${x + 34} 34 Z`} {...body(variant, "dark")} />
-          <path d={`M${x + 16} 14 V2 M${x + 11} 6 H${x + 21}`} {...line(variant, "dark", 1.2)} />
-          <path d={`M${x + 10} 64 V50 A6 6 0 0 1 ${x + 22} 50 V64 Z`} {...detail(variant)} />
-          <path d={`M${x + 10} 100 V86 A6 6 0 0 1 ${x + 22} 86 V100 Z`} {...detail(variant)} />
+          <path d={`M${x + 8} 42 Q${x + 20} 20 ${x + 32} 42 Z`} {...body(variant)} />
+          <rect x={x + 16} y="14" width="8" height="8" {...body(variant, "dark")} />
+          <path d={`M${x + 20} 14 V4`} {...line(variant, "dark", 1.1)} />
+          <rect x={x + 4} y="42" width="32" height="3" {...body(variant, "dark")} />
+          <rect x={x + 6} y="45" width="28" height="23" {...body(variant, "light")} />
+          <path d={arch(x + 20, 68, 12, 20)} {...detail(variant)} />
+          <rect x={x} y="68" width="40" height="4" {...body(variant, "dark")} />
+          <rect x={x + 2} y="72" width="36" height="24" {...body(variant)} />
+          <circle cx={x + 20} cy="84" r="6" {...detail(variant)} />
+          <rect x={x} y="96" width="40" height="114" {...body(variant)} />
+          <path d={arch(x + 20, 146, 12, 24)} {...detail(variant)} />
+          <path d={`M${x} 168 H${x + 40} M${x} 178 H${x + 40} M${x} 188 H${x + 40} M${x} 198 H${x + 40}`} {...line(variant, "light", 0.8)} />
         </g>
       ))}
-      <path d="M62 130 V62 L100 34 L138 62 V130 Z" {...body(variant, "light")} />
-      <path d="M100 34 V22 M95 27 H105" {...line(variant, "dark", 1.2)} />
-      <circle cx="100" cy="66" r="10" {...detail(variant)} />
-      <path d="M86 130 V104 A14 14 0 0 1 114 104 V130 Z" {...detail(variant)} />
-      <path d="M20 130 H180" {...line(variant, "dark", 1.4)} />
+
+      {/* Frontão com mosaico e cruz */}
+      <path d="M52 78 L100 50 L148 78 Z" {...body(variant)} />
+      <path d="M64 75 L100 55 L136 75 Z" {...body(variant, "light")} />
+      <path d="M100 50 V32 M93 39 H107" {...line(variant, "dark", 1.6)} />
+      <rect x="52" y="78" width="96" height="6" {...body(variant, "dark")} />
+
+      {/* Andar superior: rosácea, janelas e balaustrada */}
+      <rect x="52" y="84" width="96" height="44" {...body(variant)} />
+      <circle cx="100" cy="99" r="11" {...detail(variant)} />
+      {Array.from({ length: 8 }, (_, i) => i * 22.5).map((a) => (
+        <path key={a} d="M100 90 V108" transform={`rotate(${a} 100 99)`} {...line(variant, "main", 0.6)} />
+      ))}
+      <path d={arch(72, 112, 10, 20)} {...detail(variant)} />
+      <path d={arch(128, 112, 10, 20)} {...detail(variant)} />
+      <rect x="56" y="115" width="88" height="9" {...detail(variant)} />
+      <rect x="48" y="128" width="104" height="6" {...body(variant, "dark")} />
+
+      {/* Pórtico com quatro colunas e portais */}
+      <rect x="52" y="134" width="96" height="66" {...body(variant)} />
+      <path d={arch(100, 200, 20, 44)} {...detail(variant)} />
+      <rect x="70" y="170" width="10" height="30" {...detail(variant)} />
+      <rect x="120" y="170" width="10" height="30" {...detail(variant)} />
+      {[62, 86, 114, 138].map((x) => (
+        <g key={x}>
+          <rect x={x - 4} y="140" width="8" height="60" {...body(variant, "light")} />
+          <rect x={x - 6} y="134" width="12" height="6" {...body(variant, "dark")} />
+        </g>
+      ))}
+
+      {/* Escadaria */}
+      <rect x="44" y="200" width="112" height="5" {...body(variant, "dark")} />
+      <rect x="36" y="205" width="128" height="5" {...body(variant)} />
+      <path d="M0 210 H200" {...line(variant, "dark", 1.4)} />
     </svg>
   );
 }
 
-// Farol de Belém, no Mangal das Garças: torre-mirante alta e esguia.
-export function FarolBelem({ variant = "linha", className }: Props) {
+// Palmeira: tronco curvo e folhas em leque a partir do topo.
+function Palmeira({ variant, x, h, lean }: { variant: IlustracaoVariant; x: number; h: number; lean: number }) {
+  const tx = x + lean;
+  const ty = 104 - h;
+  const fronds = ["q-10 -8 -22 -2", "q-6 -12 -16 -14", "q4 -12 14 -14", "q10 -6 22 0", "q-4 2 -14 12", "q4 2 14 12"];
   return (
-    <svg viewBox="0 0 80 160" className={className} aria-hidden>
-      <Wash variant={variant} d="M14 120 C4 70 20 20 42 18 C66 18 76 80 66 130 C60 156 20 156 14 120 Z" />
-      <path d="M30 150 L34 52 H46 L50 150 Z" {...body(variant)} />
-      <rect x="26" y="36" width="28" height="14" {...body(variant, "light")} />
-      <path d="M24 36 L40 22 L56 36 Z" {...body(variant, "dark")} />
-      <path d="M40 22 V10" {...line(variant, "dark", 1.2)} />
-      <path d="M20 51 H60" {...line(variant, "dark", 1.6)} />
-      {[66, 88, 110, 132].map((y) => (
-        <rect key={y} x="37.5" y={y} width="5" height="8" {...detail(variant)} />
+    <g>
+      <path d={`M${x} 104 Q${x + lean / 2} ${104 - h / 2} ${tx} ${ty}`} {...line(variant, "dark", 2)} />
+      {fronds.map((f) => (
+        <path key={f} d={`M${tx} ${ty} ${f}`} {...line(variant, "main", 1.6)} />
       ))}
-      <rect x="31" y="40" width="5" height="7" {...detail(variant)} />
-      <rect x="44" y="40" width="5" height="7" {...detail(variant)} />
-      <rect x="20" y="149" width="40" height="5" {...body(variant, "dark")} />
+    </g>
+  );
+}
+
+// Mangal das Garças: o viveiro em cúpula de vidro à beira do lago, com
+// palmeiras e o deque de madeira.
+export function MangalDasGarcas({ variant = "linha", className }: Props) {
+  return (
+    <svg viewBox="0 0 220 132" className={className} aria-hidden>
+      <Wash variant={variant} d="M8 96 C4 44 60 14 110 18 C170 14 216 52 210 100 C204 130 16 132 8 96 Z" />
+
+      {/* Lago */}
+      <path d="M8 106 Q110 92 212 106 Q212 128 110 130 Q8 128 8 106 Z" {...body(variant, "light")} />
+      <Water variant={variant} y={116} width={220} />
+
+      {/* Cúpula de vidro com a malha de ferro */}
+      <path d="M44 96 C44 56 72 36 106 36 C142 36 168 56 168 96 Z" {...body(variant)} />
+      {[58, 74, 90, 106, 122, 138, 154].map((x) => (
+        <path key={x} d={`M${x} 96 Q${x + (106 - x) * 0.25} 52 106 36`} {...line(variant, "light", 0.8)} />
+      ))}
+      <path d="M50 80 Q106 66 162 80 M58 64 Q106 50 154 64 M74 48 Q106 40 138 48" {...line(variant, "light", 0.8)} />
+      <rect x="40" y="96" width="132" height="5" {...body(variant, "dark")} />
+
+      {/* Palmeiras */}
+      <Palmeira variant={variant} x={28} h={50} lean={-4} />
+      <Palmeira variant={variant} x={188} h={56} lean={6} />
+      <Palmeira variant={variant} x={176} h={38} lean={-3} />
+
+      {/* Deque */}
+      <path d="M124 106 H134 L160 132 H146 Z" {...body(variant, "dark")} />
+      <path d="M131 111 H138 M136 117 H144 M141 123 H150" {...line(variant, "light", 0.8)} />
     </svg>
   );
 }
