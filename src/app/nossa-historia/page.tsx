@@ -6,6 +6,7 @@ import Link from "next/link";
 import { CascoDeBarco } from "@/components/CascoDeBarco";
 import { HistoriaIcon } from "@/components/HistoriaIcon";
 import { LetraDeBarco } from "@/components/LetraDeBarco";
+import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { portos, proximoPorto, type Porto } from "@/lib/historia";
 import { wedding } from "@/lib/wedding";
@@ -47,6 +48,7 @@ export default function NossaHistoriaPage() {
           </div>
         </section>
       </main>
+      <SiteFooter />
     </>
   );
 }

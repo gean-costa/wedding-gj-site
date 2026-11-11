@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import Link from "next/link";
 import { AzulejoGrid } from "@/components/Azulejo";
 import { Countdown } from "@/components/Countdown";
+import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { mapsEmbedUrl, mapsSearchUrl, wedding, type Venue } from "@/lib/wedding";
 
@@ -84,9 +85,7 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="py-8 text-center text-sm">
-        {wedding.shortNames} · {wedding.dateLabel}
-      </footer>
+      <SiteFooter variante="azulejos" />
     </>
   );
 }
