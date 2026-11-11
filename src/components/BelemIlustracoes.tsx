@@ -511,50 +511,72 @@ export function MercadoSaoBras({ variant = "linha", className }: Props) {
 /* ------------------------------------------------------------- Selo postal */
 
 // Selo de carta, inspirado no selo dos Correios do Theatro da Paz (1978):
-// borda picotada, margem branca, ilustração, faixa com local e valor, legenda
+// borda picotada nos quatro lados (máscara `picote`), margem branca, ilustração, faixa com local e valor, legenda
 // e crédito na vertical. As bolinhas da borda deixam ver o fundo da página.
 // `small` é a versão reduzida (sem crédito vertical), para colar na carta.
+// `uniforme`: legenda só com o nome e sempre com altura de duas linhas, para
+// que selos com legendas de tamanhos diferentes fiquem com a mesma altura.
 export function SeloPostal({
   title,
   children,
   rotate = 0,
   small = false,
+  uniforme = false,
   className = "",
 }: {
   title: string;
   children: React.ReactNode;
   rotate?: number;
   small?: boolean;
+  uniforme?: boolean;
   className?: string;
 }) {
   return (
+    // A sombra fica num invólucro: se ficasse no mesmo elemento da máscara,
+    // a máscara cortaria a sombra junto.
     <div
-      className={`inline-block p-[6px] drop-shadow-md ${className}`}
-      style={{
-        backgroundImage: "radial-gradient(circle at center, transparent 3.6px, #ffffff 4.1px)",
-        backgroundSize: "12px 12px",
-        backgroundPosition: "-6px -6px",
-        transform: rotate ? `rotate(${rotate}deg)` : undefined,
-      }}
+      className={`inline-block drop-shadow-md ${className}`}
+      style={{ transform: rotate ? `rotate(${rotate}deg)` : undefined }}
     >
-      <div className={`relative flex h-full flex-col bg-white ${small ? "px-1.5 pb-1 pt-1.5" : "px-3 pb-2 pt-3"}`}>
-        {!small && (
-          <span className="absolute left-0.5 top-3 rotate-180 text-[7px] uppercase tracking-widest text-stone [writing-mode:vertical-rl]">
-            Juliana &amp; Gean · 2027
-          </span>
-        )}
-        <div className={`flex flex-1 items-end justify-center bg-river/60 ${small ? "px-1 pt-1" : "px-2 pt-2"}`}>{children}</div>
-        <div className={`flex items-baseline justify-between bg-primary text-white ${small ? "mt-1 px-1 py-0.5" : "mt-2 px-2 py-1"}`}>
-          <span className={`font-bold tracking-wide ${small ? "text-[9px]" : "text-sm"}`}>Belém 27</span>
-          <span className={`font-bold ${small ? "text-[9px]" : "text-sm"}`}>13,11</span>
+      <div className="h-full bg-white p-[6px]" style={picote}>
+        <div className={`relative flex h-full flex-col bg-white ${small ? "px-1.5 pb-1 pt-1.5" : "px-3 pb-2 pt-3"}`}>
+          {!small && (
+            <span className="absolute left-0.5 top-3 rotate-180 text-[7px] uppercase tracking-widest text-stone [writing-mode:vertical-rl]">
+              Juliana &amp; Gean · 2027
+            </span>
+          )}
+          <div className={`flex flex-1 items-end justify-center bg-river/60 ${small ? "px-1 pt-1" : "px-2 pt-2"}`}>{children}</div>
+          <div className={`flex items-baseline justify-between gap-2 whitespace-nowrap bg-primary text-white ${small ? "mt-1 px-1 py-0.5" : "mt-2 px-2 py-1"}`}>
+            <span className={`font-bold tracking-wide ${small ? "text-[9px]" : "text-sm"}`}>Belém 27</span>
+            <span className={`font-bold ${small ? "text-[9px]" : "text-sm"}`}>13,11</span>
+          </div>
+          <p
+            className={`mt-1 text-center uppercase text-ink ${small ? "text-[5px] tracking-[0.15em]" : "text-[8px] tracking-[0.2em]"} ${uniforme ? "h-[2lh] leading-[1.35]" : ""}`}
+          >
+            {uniforme ? title : `${title} · Belém — Pará`}
+          </p>
         </div>
-        <p className={`mt-1 text-center uppercase text-ink ${small ? "text-[5px] tracking-[0.15em]" : "text-[8px] tracking-[0.2em]"}`}>
-          {title} · Belém — Pará
-        </p>
       </div>
     </div>
   );
 }
+
+// Picote do selo nos quatro lados: uma máscara com meias-bolinhas "furando"
+// cada borda (uma camada por lado, combinadas com intersect). O `round` ajusta
+// o espaçamento (~12px) para caber um número inteiro de furos em cada lado,
+// então os furos ficam simétricos qualquer que seja o tamanho do selo.
+const furo = "transparent 3.6px, #000 4.1px";
+const picote: React.CSSProperties = {
+  maskImage: [
+    `radial-gradient(circle at 50% 0, ${furo})`,
+    `radial-gradient(circle at 50% 100%, ${furo})`,
+    `radial-gradient(circle at 0 50%, ${furo})`,
+    `radial-gradient(circle at 100% 50%, ${furo})`,
+  ].join(", "),
+  maskSize: "12px 100%, 12px 100%, 100% 12px, 100% 12px",
+  maskRepeat: "round no-repeat, round no-repeat, no-repeat round, no-repeat round",
+  maskComposite: "intersect",
+};
 
 // Carimbo do correio: círculo duplo com a cidade e a data, e linhas onduladas.
 export function Carimbo({ className }: { className?: string }) {
