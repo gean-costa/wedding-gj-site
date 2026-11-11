@@ -23,6 +23,7 @@ export type Bicho = {
   nariz: string;
   orelha?: string; // parte de dentro da orelha
   marcas?: ReactNode; // manchas/listras, recortadas pelo corpo
+  extra?: ReactNode; // detalhes desenhados por cima do rosto (ex.: mancha no nariz)
   halo?: boolean;
 };
 
@@ -128,215 +129,263 @@ function CaoRosto({ b }: { b: Bicho }) {
 }
 
 // Listras de gato tigrado (testa em "M", bochechas, corpo e anéis na cauda).
-function Listras({ cor, so = "tudo" }: { cor: string; so?: "tudo" | "cabeca" }) {
+// `so` limita onde elas aparecem; `largura` e `opacidade` deixam mais suaves.
+function Listras({
+  cor,
+  so = "tudo",
+  largura = 2.6,
+  opacidade = 1,
+}: {
+  cor: string;
+  so?: "tudo" | "cabeca" | "cabeca-rabo";
+  largura?: number;
+  opacidade?: number;
+}) {
   return (
-    <g stroke={cor} strokeWidth="2.6" strokeLinecap="round" fill="none">
+    <g stroke={cor} strokeWidth={largura} strokeLinecap="round" fill="none" opacity={opacidade}>
       <path d="M43 20 L45.5 29 M50 18 V29 M57 20 L54.5 29" />
       <path d="M26 38 H34 M26.5 44 H34.5 M66 38 H74 M65.5 44 H73.5" />
-      {so === "tudo" && (
-        <>
-          <path d="M29 64 Q38 68 36 77 M71 64 Q62 68 64 77 M25 82 Q35 86 33 95 M75 82 Q65 86 67 95" />
-          <path d="M85 74 L94 72 M87 84 L97 84 M80 94 L88 99" />
-        </>
-      )}
+      {so !== "cabeca" && <path d="M85 74 L94 72 M87 84 L97 84 M80 94 L88 99" />}
+      {so === "tudo" && <path d="M29 64 Q38 68 36 77 M71 64 Q62 68 64 77 M25 82 Q35 86 33 95 M75 82 Q65 86 67 95" />}
+    </g>
+  );
+}
+
+// Peito, queixo e patinhas brancos (Maya, Masha).
+function PeitoBranco({ cor = BRANCO }: { cor?: string }) {
+  return (
+    <g fill={cor}>
+      <ellipse cx="50" cy="52" rx="10" ry="6.5" />
+      <path d="M38 55 C35 70 40 86 50 93 C60 86 65 70 62 55 Z" />
+      <ellipse cx="40" cy="103" rx="9" ry="5.5" />
+      <ellipse cx="60" cy="103" rx="9" ry="5.5" />
     </g>
   );
 }
 
 // ---------- A família (em ordem de idade) ----------
+// Desenhos feitos a partir das fotos, vistos de frente (esquerda/direita
+// são as de quem olha a foto).
 const PRETO = "#2A2A2E";
 const BRANCO = "#F7F4EE";
+// Maya e Masha têm a mesma cor; só a nitidez das listras muda.
+const TIGRADA = { pelo: "#A1968A", rosto: "#C9AC92", listra: "#3A3632" };
 
 export const familia: Bicho[] = [
   {
+    // Rosto branco; orelha esquerda laranja; faixa preta no alto da cabeça
+    // descendo pelo lado direito; laranja acima do olho direito; mancha preta
+    // no nariz e boca ("bigodinho") e pinta laranja na bochecha.
     id: "tricolor",
     nome: "Lolla",
     label: "Gata tricolor",
     especie: "gato",
     base: BRANCO,
     pata: BRANCO,
-    olhos: "#C9A93E",
+    olhos: "#C9C46E",
     traco: INK,
-    nariz: "#D98F8F",
+    nariz: PRETO,
     orelha: "#E8B4B0",
     marcas: (
       <>
-        <path d="M18 -2 H49 V27 C40 31 30 38 18 44 Z" fill="#E0904A" />
-        <path d="M55 -2 H82 V36 C72 31 63 26 55 18 Z" fill={PRETO} />
-        <ellipse cx="33" cy="80" rx="12" ry="15" fill="#E0904A" />
-        <ellipse cx="68" cy="70" rx="10" ry="12" fill={PRETO} />
+        <path d="M18 -2 H37 L41 20 C34 22 28 26 24 32 L18 32 Z" fill="#DE9B5A" />
+        <path d="M33 26 C38 20 46 17 52 17 L52 -2 H82 V50 C76 48 70 44 67 38 C66 33 63 29 58 27 C52 26 47 27 44 30 C40 31 36 30 33 26 Z" fill={PRETO} />
+        <ellipse cx="57.5" cy="31" rx="6.5" ry="4.5" fill="#DE9B5A" />
+        <path d="M44.5 45 C47 42.5 53 42.5 55.5 45 C56.5 49.5 53 52.5 50 51.5 C47 52.5 43.5 49.5 44.5 45 Z" fill={PRETO} />
+        <ellipse cx="57.5" cy="50.5" rx="4.5" ry="3.5" fill="#DE9B5A" />
+        <ellipse cx="70" cy="49" rx="2.6" ry="3.4" fill="#DE9B5A" />
+        <ellipse cx="31" cy="80" rx="11" ry="15" fill="#DE9B5A" />
+        <ellipse cx="69" cy="70" rx="10" ry="13" fill={PRETO} />
         <ellipse cx="93" cy="80" rx="9" ry="14" fill={PRETO} />
-        <ellipse cx="78" cy="97" rx="7" ry="6" fill="#E0904A" />
+        <ellipse cx="78" cy="97" rx="7" ry="6" fill="#DE9B5A" />
       </>
     ),
   },
   {
+    // Frajola: listra branca fina subindo pela testa, focinho e peito
+    // brancos, nariz todo rosa.
     id: "frajola-1",
     nome: "Elise",
     label: "Gata frajola",
     especie: "gato",
     base: PRETO,
     pata: BRANCO,
-    olhos: "#B9C95A",
+    olhos: "#C9D46A",
     traco: "#9A9AA0",
-    nariz: "#D98F8F",
+    nariz: "#E8A0A8",
     orelha: "#5A4448",
     marcas: (
       <>
-        <path d="M50 30 C45 38 37 43 38 53 C42 60 58 60 62 53 C63 43 55 38 50 30 Z" fill={BRANCO} />
-        <ellipse cx="50" cy="78" rx="12" ry="22" fill={BRANCO} />
+        <path d="M48.8 19 C48.4 27 47.5 33 44.5 39 C38 43 36 50 38 56 C42 61 58 61 62 56 C64 50 62 43 55.5 39 C52.5 33 51.6 27 51.2 19 Z" fill={BRANCO} />
+        <ellipse cx="50" cy="78" rx="13" ry="23" fill={BRANCO} />
         <ellipse cx="40" cy="103" rx="9" ry="5.5" fill={BRANCO} />
         <ellipse cx="60" cy="103" rx="9" ry="5.5" fill={BRANCO} />
       </>
     ),
   },
   {
+    // Toda preta, olhos verdes.
     id: "preta-1",
     nome: "Jade",
     label: "Gata preta",
     especie: "gato",
     base: PRETO,
     pata: PRETO,
-    olhos: "#E2B842",
+    olhos: "#8FC45A",
     traco: "#8E8E94",
-    nariz: "#4A3E40",
+    nariz: "#3E3436",
     orelha: "#4A3A3E",
   },
   {
+    // Frajola como a Elise, mas com uma mancha preta no nariz.
     id: "frajola-2",
     nome: "Bartô",
     label: "Gato frajola",
     especie: "gato",
     base: PRETO,
     pata: BRANCO,
-    olhos: "#8FBF5A",
+    olhos: "#C6D29A",
     traco: "#9A9AA0",
-    nariz: "#D98F8F",
+    nariz: "#E8A0A8",
     orelha: "#5A4448",
     marcas: (
       <>
-        <path d="M20 43 C30 41 40 40 50 40 C60 40 70 41 80 43 V70 H20 Z" fill={BRANCO} />
-        <path d="M34 60 C30 76 30 92 34 104 H66 C70 92 70 76 66 60 Z" fill={BRANCO} />
+        <path d="M48.6 22 C48.2 29 47 34 43.5 39.5 C37 43 35 50 37 56 C41 62 59 62 63 56 C65 50 63 43 56.5 39.5 C53 34 51.8 29 51.4 22 Z" fill={BRANCO} />
+        <path d="M36 58 C40 53 60 53 64 58 C70 76 70 92 66 104 H34 C30 92 30 76 36 58 Z" fill={BRANCO} />
         <ellipse cx="40" cy="103" rx="9" ry="5.5" fill={BRANCO} />
         <ellipse cx="60" cy="103" rx="9" ry="5.5" fill={BRANCO} />
-        <ellipse cx="91" cy="72" rx="6" ry="5" fill={BRANCO} />
       </>
     ),
+    // Nariz rosa com uma mancha preta no meio, escorrendo até a boca.
+    extra: <path d="M48 46.6 C48.8 45.9 50.9 46 51.3 47 L50.3 50.4 C49.4 50 48.2 48.5 48 46.6 Z" fill={PRETO} />,
   },
   {
+    // Preta com uma pintinha branca no peito e olhos amarelos.
     id: "preta-2",
     nome: "Mia",
     label: "Gata preta",
     especie: "gato",
     base: PRETO,
     pata: PRETO,
-    olhos: "#9CC65E",
+    olhos: "#E6C23A",
     traco: "#8E8E94",
-    nariz: "#4A3E40",
+    nariz: "#3E3436",
     orelha: "#4A3A3E",
+    marcas: <path d="M48.3 61 L50 57.5 L51.7 61 L50 65.5 Z" fill={BRANCO} />,
   },
   {
+    // Tigrada com as listras quase apagadas; peito, queixo e patas brancos;
+    // olhos verde-claros.
     id: "tigrada",
     nome: "Maya",
     label: "Gata tigrada",
     especie: "gato",
-    base: "#A27E58",
-    pata: "#A27E58",
-    olhos: "#B9C95A",
-    traco: "#4E3A27",
-    nariz: "#C97C72",
+    base: TIGRADA.pelo,
+    pata: BRANCO,
+    olhos: "#D2E2B8",
+    traco: "#2F2C29",
+    nariz: "#D88E8A",
     orelha: "#D9A79A",
     marcas: (
       <>
-        <Listras cor="#5C432C" />
-        <ellipse cx="50" cy="49" rx="11" ry="7" fill="#E9DCC8" />
-        <ellipse cx="50" cy="80" rx="9" ry="16" fill="#C9AE8C" />
+        <ellipse cx="50" cy="42" rx="17" ry="12" fill={TIGRADA.rosto} opacity="0.45" />
+        <Listras cor={TIGRADA.listra} largura={2.4} opacidade={0.3} />
+        <PeitoBranco />
       </>
     ),
   },
   {
+    // Siamesa: corpo bege, máscara, orelhas, patas e rabo marrom-escuros.
     id: "siamesa",
     nome: "Pompom",
     label: "Gata siamesa",
     especie: "gato",
-    base: "#F0E6D4",
-    pata: "#5A463A",
-    olhos: "#6FA8DC",
-    traco: "#3A2C26",
-    nariz: "#3A2C26",
+    base: "#EBDDC6",
+    pata: "#4A372C",
+    olhos: "#7FB2E5",
+    traco: "#2E241E",
+    nariz: "#2E241E",
     halo: true,
     marcas: (
       <>
-        <ellipse cx="50" cy="45" rx="14" ry="12" fill="#5A463A" opacity="0.9" />
-        <ellipse cx="50" cy="44" rx="18" ry="16" fill="#5A463A" opacity="0.25" />
-        <path d={GATO.orelhaE} fill="#5A463A" />
-        <path d={GATO.orelhaD} fill="#5A463A" />
-        <ellipse cx="40" cy="103" rx="9" ry="5.5" fill="#5A463A" />
-        <ellipse cx="60" cy="103" rx="9" ry="5.5" fill="#5A463A" />
-        <path d={GATO.cauda} fill="#5A463A" />
+        <ellipse cx="50" cy="66" rx="30" ry="14" fill="#D9C3A2" opacity="0.6" />
+        <ellipse cx="50" cy="44" rx="18" ry="16" fill="#4A372C" opacity="0.3" />
+        <ellipse cx="50" cy="45" rx="14" ry="12" fill="#4A372C" opacity="0.9" />
+        <path d={GATO.orelhaE} fill="#4A372C" />
+        <path d={GATO.orelhaD} fill="#4A372C" />
+        <ellipse cx="40" cy="103" rx="9" ry="5.5" fill="#4A372C" />
+        <ellipse cx="60" cy="103" rx="9" ry="5.5" fill="#4A372C" />
+        <path d={GATO.cauda} fill="#4A372C" />
       </>
     ),
   },
   {
+    // Mesma cor da Maya, mas com as listras bem nítidas; peito, queixo e
+    // patas brancos; olhos cor de mel.
     id: "tigrada-cinza",
     nome: "Masha",
     label: "Gata tigrada cinza",
     especie: "gato",
-    base: "#9A9DA3",
-    pata: "#9A9DA3",
-    olhos: "#D8B850",
-    traco: "#3E4046",
-    nariz: "#C98A8A",
-    orelha: "#D9AFAF",
+    base: TIGRADA.pelo,
+    pata: BRANCO,
+    olhos: "#B99C48",
+    traco: "#2F2C29",
+    nariz: "#C98A80",
+    orelha: "#E3B0AA",
     marcas: (
       <>
-        <Listras cor="#55585E" />
-        <ellipse cx="50" cy="49" rx="11" ry="7" fill="#DCDDE0" />
-        <ellipse cx="50" cy="80" rx="9" ry="16" fill="#C2C4C8" />
+        <ellipse cx="50" cy="42" rx="17" ry="12" fill={TIGRADA.rosto} opacity="0.45" />
+        <Listras cor={TIGRADA.listra} largura={2.8} />
+        <PeitoBranco />
       </>
     ),
   },
   {
+    // Siamesa de pontas tigradas: corpo creme, máscara e orelhas
+    // bege-acinzentadas com listrinhas, rabo listrado, olhos azuis.
     id: "tigrada-branca",
     nome: "Romena",
-    label: "Gata tigrada branca",
+    label: "Gata siamesa de pontas tigradas",
     especie: "gato",
-    base: BRANCO,
-    pata: BRANCO,
-    olhos: "#8FBF5A",
-    traco: INK,
-    nariz: "#D98F8F",
-    orelha: "#E8B4B0",
+    base: "#F4EFE7",
+    pata: "#F4EFE7",
+    olhos: "#8DB3DE",
+    traco: "#6E6256",
+    nariz: "#E0A0A0",
+    orelha: "#E8C2BC",
     marcas: (
       <>
-        <path d="M18 -2 H82 V33 C70 28 60 27 50 27 C40 27 30 28 18 33 Z" fill="#BDB6AA" />
-        <ellipse cx="72" cy="72" rx="9" ry="13" fill="#BDB6AA" />
-        <path d="M84 66 H100 V110 H80 Z" fill="#BDB6AA" />
-        <Listras cor="#8A8378" so="cabeca" />
-        <path d="M68 62 L76 64 M66 72 L77 73 M68 82 L76 81 M85 74 L94 72 M87 84 L97 84 M80 94 L88 99" stroke="#8A8378" strokeWidth="2.4" strokeLinecap="round" />
+        <path d={GATO.orelhaE} fill="#C7B49E" />
+        <path d={GATO.orelhaD} fill="#C7B49E" />
+        <ellipse cx="50" cy="47" rx="10" ry="7.5" fill="#CDB89E" opacity="0.85" />
+        <path d={GATO.cauda} fill="#D3C3AE" />
+        <Listras cor="#A08D79" so="cabeca-rabo" largura={1.8} />
+        <path d="M37 35.5 L31 33.5 M63 35.5 L69 33.5" stroke="#A08D79" strokeWidth="1.4" strokeLinecap="round" />
       </>
     ),
   },
   {
+    // Laranja com listras suaves, focinho e queixo clarinhos, olhos verde-claros.
     id: "laranja",
     nome: "Laranja",
     label: "Gato laranja",
     especie: "gato",
-    base: "#E39A4F",
-    pata: "#E39A4F",
-    olhos: "#B9C95A",
+    base: "#E5A260",
+    pata: "#E5A260",
+    olhos: "#C8D9A0",
     traco: "#7A4317",
-    nariz: "#D9857A",
+    nariz: "#E39C8E",
     orelha: "#F2B8A8",
     marcas: (
       <>
-        <Listras cor="#B8692A" />
-        <ellipse cx="50" cy="49" rx="11" ry="7" fill="#F6D7AE" />
-        <ellipse cx="50" cy="80" rx="9" ry="16" fill="#F2C48E" />
+        <Listras cor="#C47A3A" largura={2.2} />
+        <ellipse cx="50" cy="50" rx="11" ry="7" fill="#F6DDB8" />
+        <ellipse cx="50" cy="80" rx="9" ry="16" fill="#F2CFA0" />
       </>
     ),
   },
   {
+    // Ainda sem fotos: vira-lata caramelo provisório.
     id: "viralata",
     nome: "Yoshi",
     label: "Cachorro vira-lata",
@@ -414,6 +463,7 @@ export function BichoDesenho({ bicho: b, uid, estilo = "chapado", espiando = fal
         </g>
         {suave && <Silhueta fill="none" stroke={INK} strokeWidth="1" strokeLinejoin="round" />}
         <Rosto b={b} />
+        {b.extra}
       </g>
 
       {espiando && (
